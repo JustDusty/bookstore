@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Message</title>
+</head>
+<body>
+<div th:include = "@{/user/fragments/topfragment}"></div>
+
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong card-shad">
+          <div class="card-body p-5 text-center">
+          	<h3 class="mb-5" style="color: #4d545a;" th:text="${message}"></h3>
+    		<hr class=" my-4">
+   			<a th:href="@{/index}" class="btn btn-lg btn-block btn-primary text-shad">Go Back</a>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+    
+<div th:include = "@{/user/fragments/bottomfragment}"></div>
+</body>
+</html>

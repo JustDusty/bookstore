@@ -1,0 +1,33 @@
+/* style.css | http://localhost:8080/css/style.css */
+
+.logo {
+  /* background: #343957; */
+  background: #3c7124;
+}
+
+/* sidebar.css | http://localhost:8080/css/lib/menubar/sidebar.css */
+
+.sidebar .nano-content > ul li.label {
+  /* color: rgba(160, 180, 200, 0.55); */
+  color: rgba(160, 180, 200, 0.85);
+}
+
+.sidebar .nano-content > ul li > a:hover {
+  /* background: linear-gradient(to right, #5772FE , #6D85FB); */
+  background: linear-gradient(to right, #56ad37 ,#59ab34);
+}
+
+.sidebar .nano-content > ul > li.active > a, .sidebar .nano-content > ul > li.open > a, .sidebar .nano-content > ul > li > ul {
+  /* background: linear-gradient(to right, #5772FE , #6D85FB); */
+  background: linear-gradient(to right, #56ad37 ,#59ab34);
+}
+
+.sidebar {
+  /* background: #343957; */
+  background: #3c7124;
+}
+
+.sidebar .nano-content > ul li > a {
+  /* background: #343957; */
+  background: #3c7124;
+}

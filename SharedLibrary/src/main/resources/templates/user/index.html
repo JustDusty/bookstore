@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<style>
+.my-toast-warning {
+  background-color: #ffeaa5;
+  color: #333;
+  border-color: #e6d980;
+}
+
+</style>
+</head>
+<body>
+    <div th:include="user/fragments/topfragment"></div>
+
+
+    <!-- Carousel Start -->
+    <div class="container-fluid mb-3">
+        <div class="row px-xl-5">
+            <div class="col-lg-12">
+                <div class="mb-30 mb-lg-0" >
+	                <div class="carousel-item position-relative active" style="height: 430px;">
+	                    <img class="position-absolute w-100 h-100" th:src="@{img/carousel-cover.jpg}" style="object-fit: cover;">
+	                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+	                        <div class="p-3" style="max-width: 700px;">
+	                            <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Smart Lib</h1>
+	                            <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
+	                            <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" th:href="@{/shop}">Shop Now</a>
+	                        </div>
+	                    </div>
+	                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Carousel End -->
+
+
+    <!-- Categories Start -->
+    <div class="container-fluid pt-5">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
+        <div class="row px-xl-5 pb-3" >
+            <div th:each="category : ${randcategories}" class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <a class="text-decoration-none" th:href="@{/shop(category=${category.id}, minPrice=0, maxPrice=200)}"> 
+                    <div class="cat-item d-flex align-items-center mb-4">
+                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                            <img class="img-fluid" th:src="${category.imageUrl}" alt="">
+                        </div>
+                        <div class="flex-fill pl-3">
+                            <h6><span th:text="${category.name}"></span></h6>
+                            <small class="text-body" >
+                            	<span th:text="${category.numberOfBooks != null ? category.numberOfBooks : '0'}"></span>
+                            	<span> Books</span> 
+                            </small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Categories End -->
+
+    <!-- Products Start -->
+    <div class="container-fluid pt-5 pb-3">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Latest Products</span></h2>
+        <div class="row px-xl-5">
+        
+            <div th:each="book:${eightbooks}" class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <div class="product-item bg-light mb-4">
+                    <div class="product-img position-relative overflow-hidden">
+                        <img class="img-fluid w-100" th:src="${book.imageUrl}" alt="">
+                        <div class="product-action">
+                            <a class="btn btn-outline-dark btn-square btn-add-to-cart" th:href="@{/shop/{id}(id=${book.id})}" th:attr="data-authenticated=${authenticated}"><i class="fa fa-shopping-cart"></i></a>
+                            <a class="btn btn-outline-dark btn-square" th:href="@{/shop/{id}(id=${book.id})}"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                    <div class="text-center py-4">
+                        <a class="h6 text-decoration-none text-truncate" href="">
+                        	<span th:text = "${book.title}"></span>
+                        </a>
+                        <div class="d-flex align-items-center justify-content-center mt-2">
+                            <h5 th:text="${book.price}"></h5>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Products End -->
+
+
+
+    <div th:include="user/fragments/bottomfragment"></div>
+	
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+</body>
+
+</html>

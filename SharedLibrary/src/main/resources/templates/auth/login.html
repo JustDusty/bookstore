@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Login</title>
+</head>
+<body>
+<div th:include = "@{/user/fragments/topfragment}"></div>
+<section class="">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong card-shad">
+          <div class="card-body p-5 text-center">
+			<form th:action="@{/login}" method="POST">
+            <h3 class="mb-5" style="color: #4d545a;">Sign in</h3>
+            <hr class="my-4">
+            <div th:if="${successMessage}">
+            	<div class="alert alert-success" role="alert">
+        			<span th:utext="${successMessage}"></span>
+    			</div>
+			</div>				
+            <div class="form-outline mb-4">
+              <input th:placeholder="'Enter email or username'" type="text" id="typeEmailX-2" th:name = "email" class="form-control form-control-lg" />
+            </div>
+
+            <div class="form-outline mb-4">
+              <input th:placeholder="'Enter password'" type="password" id="typePasswordX-2" th:name ="password" class="form-control form-control-lg" />
+            </div>
+            
+            <div th:if="${param.error}">
+    			<div class="alert alert-danger" role="alert">
+        			Email or Password is invalid.
+    			</div>
+			</div>
+            <!-- Checkbox -->
+            <div class ="d-flex justify-content-between">
+	            <div class="form-check d-flex justify-content-start mb-4">
+	              <input class="form-check-input" type="checkbox" value="" id="form1Example3" name = "remember-me" />
+	              <label class="form-check-label" for="form1Example3"> Remember me </label>
+	            </div>
+	 			<div class="form-check d-flex justify-content-center mb-4 text-center">
+	              <a th:href="@{/forgotPassword}">Forgot Password</a>
+	            </div>
+            </div>
+
+            <button class="btn btn-primary btn-lg btn-block text-shad" type="submit">Login</button>
+            <a th:href="@{|/register|}" class ="btn btn-primary btn-lg btn-block text-shad">Sign up</a>
+
+            <hr class="my-4">
+            </form>
+			
+			<a th:href= "@{/oauth2/authorization/google}" class="btn btn-lg btn-block btn-primary text-shad" style="background-color: #dd4b39; "><i class="fab fa-google me-2" style="padding-right: 0.5rem;"></i> Sign in with google</a>
+           
+            <a th:href= "@{/oauth2/authorization/facebook}" class="btn btn-lg btn-block btn-primary mb-2 text-shad" style="background-color: #3b5998;"
+              ><i class="fab fa-facebook-f me-2" style="padding-right: 0.5rem;"></i> Sign in with facebook</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div th:include = "@{/user/fragments/bottomfragment}"></div>
+
+</body>
+</html>
