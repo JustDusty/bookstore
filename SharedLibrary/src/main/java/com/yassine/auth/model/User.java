@@ -71,6 +71,7 @@ public class User implements UserDetails {
   @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
+
   @Column(name = "zip_code", unique = true)
   private Integer zipCode;
 
