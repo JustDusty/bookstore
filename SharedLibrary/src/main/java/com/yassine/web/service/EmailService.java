@@ -34,11 +34,12 @@ public class EmailService {
     message.setTo(order.getUser().getEmail());
     message.setSubject("Order Confirmation");
 
-    String emailText = "Thank you for your order! Here are the details:\n\n" + "Order ID: "
-        + order.getId() + "\n" + "Order Date: " + order.getOrderDate() + "\n" + "Delivery Date: "
-        + order.getDeliveryDate() + "\n" + "Total Price: " + order.getTotalPrice() + "\n"
-        + "Payment Method: " + order.getPaymentMethod() + "\n" + "Order Status: "
-        + order.getOrderStatus() + "\n\n" + "Thank you for choosing our store!";
+    String emailText =
+        "Merci pour votre commande ! Voici les détails :\n\n" + "ID de commande : " + order.getId()
+            + "\n" + "Date de commande : " + order.getOrderDate() + "\n" + "Date de livraison : "
+            + order.getDeliveryDate() + "\n" + "Prix total : " + order.getTotalPrice() + "\n"
+            + "Méthode de paiement : " + order.getPaymentMethod() + "\n" + "Statut de commande : "
+            + order.getOrderStatus() + "\n\n" + "Merci d'avoir choisi notre magasin !";
 
     message.setText(emailText);
     mailSender.send(message);

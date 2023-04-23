@@ -66,7 +66,7 @@ public class CheckoutController {
     order.setOrderStatus("pending");
     order.setUser(user);
     order.setTotalPrice(totalPrice);
-    order.setPaymentMethod("Payment On Delivery");
+    order.setPaymentMethod("Paiement à la livraison");
     order.setIsDeleted(false);
 
     Order savedOrder = orderService.save(order);
