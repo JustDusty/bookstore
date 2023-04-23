@@ -18,10 +18,6 @@ public class AdminController {
     return "redirect:/admin/category/";
   }
 
-  @GetMapping("/index")
-  public String adminHome() {
-    return "admin/index";
-  }
 
 
   @GetMapping("/404")

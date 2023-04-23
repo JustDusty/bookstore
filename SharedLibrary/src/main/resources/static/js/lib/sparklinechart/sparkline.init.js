@@ -114,11 +114,11 @@ $(document).ready(function() {
             highlightLineColor: 'rgba(0, 0, 0, 0.2)',
             highlightSpotColor: '#6164c1'
         });
-        $('#sparkline11').sparkline([20, 40, 30], {
+        $('#sparkline11').sparkline([25, 15, 5,55], {
             type: 'pie',
-            height: '200',
+            height: '300',
             resize: true,
-            sliceColors: ['#D70206', '#F4C63D', '#D17905']
+            sliceColors: ['#007bff', '#ffc107', '#c82333',"#28a745"]
         });
 
         $("#sparkline12").sparkline([5,6,2,8,9,4,7,10,11,12,10,4,7,10], {

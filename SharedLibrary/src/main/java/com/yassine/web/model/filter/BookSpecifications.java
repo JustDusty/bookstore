@@ -1,4 +1,4 @@
-package com.yassine.web.model.Filter;
+package com.yassine.web.model.filter;
 
 import org.springframework.data.jpa.domain.Specification;
 import com.yassine.web.model.Book;

@@ -54,12 +54,13 @@ public class WebSecurityConfig {
     http.authorizeHttpRequests()
         // URL matching for accessibility
         .requestMatchers("/", "/login", "/register/**", "/oauth2/**", "/forgotPassword",
-            "/forgotPassword/**", "/index", "/index/**", "/shop/**", "/shop", "/contact")
+            "/forgotPassword/**", "/index", "/index/**", "/shop/**", "/shop", "/contact",
+            "/actuator/**")
         .permitAll().requestMatchers("/cart/**", "checkout/**").hasAnyAuthority("USER")
-        .requestMatchers("/admin/**").hasAnyAuthority("ADMIN").requestMatchers("/**")
-        .hasAnyAuthority("USER", "ADMIN").anyRequest().authenticated().and()
-        .oauth2Login(login -> login.loginPage("/login").defaultSuccessUrl("/").userInfoEndpoint()
-            .userService(oauthUserService));
+        .requestMatchers("/admin/**", "/actuator/**", "/cart/**", "checkout/**")
+        .hasAnyAuthority("ADMIN").requestMatchers("/**").hasAnyAuthority("USER", "ADMIN")
+        .anyRequest().authenticated().and().oauth2Login(login -> login.loginPage("/login")
+            .defaultSuccessUrl("/").userInfoEndpoint().userService(oauthUserService));
 
     http.formLogin(login -> login.loginPage("/login").failureUrl("/login?error=true")
         .successHandler(loginSuccessHandler).usernameParameter("email")
@@ -71,9 +72,9 @@ public class WebSecurityConfig {
     //
 
 
-    // http.sessionManagement(management -> management.sessionFixation().migrateSession()
-    // .maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/login?expired")
-    // .sessionRegistry(sessionRegistry()).and().invalidSessionUrl("/login"));
+    http.sessionManagement(management -> management.sessionFixation().migrateSession()
+        .maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/login?expired")
+        .sessionRegistry(sessionRegistry()).and().invalidSessionUrl("/login"));
 
     http.csrf().disable();
     // http.requiresChannel().anyRequest().requiresSecure();

@@ -45,8 +45,8 @@ public class BookDetailController {
 
   @PostMapping
   public String getBookDetail(@PathVariable(name = "id") Long id,
-      @RequestParam("message") String message, @RequestParam("email") String email, Model model,
-      Principal principal) {
+      @RequestParam("formrating") Double rating, @RequestParam("message") String message,
+      @RequestParam("email") String email, Model model, Principal principal) {
 
 
     Review review = new Review();
@@ -54,16 +54,20 @@ public class BookDetailController {
     Book book = bookService.findById(id);
     review.setBook(book);
 
-    Optional<User> optional = userService.getByEmailOrUsername(principal.getName());
+    Optional<User> optional = Optional.empty();
+    if (principal != null)
+      optional = userService.getByEmailOrUsername(principal.getName());
     if (optional.isPresent()) {
       User user = optional.get();
       review.setUser(user);
       review.setFullName(user.getFullName());
       review.setEmail(user.getEmail());
+
     } else {
       review.setEmail(email);
       review.setFullName("Anonymous");
     }
+    review.setRating(rating);
     review.setMessage(message);
 
     reviewService.save(review);
@@ -72,15 +76,22 @@ public class BookDetailController {
 
   @GetMapping
   public String getDetail(Model model, Principal principal) {
-    Optional<User> optional = userService.getByEmailOrUsername(principal.getName());
+    String name = "Anonymous";
     Review review = new Review();
-    if (optional.isPresent()) {
-      User user = optional.get();
-      review.setEmail(user.getEmail());
-      review.setFullName(user.getFullName());
-    }
+    if (principal != null) {
+      name = principal.getName();
 
+      Optional<User> optional = userService.getByEmailOrUsername(name);
+
+      if (optional.isPresent()) {
+        User user = optional.get();
+        review.setEmail(user.getEmail());
+        review.setFullName(user.getFullName());
+      }
+    }
     model.addAttribute("review", review);
+
+
     return "user/detail";
   }
 
@@ -90,6 +101,7 @@ public class BookDetailController {
   public Book getTheBook(@PathVariable(name = "id") Long id, Model model) {
     Book book = bookService.findById(id);
 
+    System.out.println("-------------" + book.getRating());
     Category category = book.getCategory();
     List<Book> similarBooks = bookService.findRecentSimilarBooksByCategory(category);
     model.addAttribute("similarBooks", similarBooks);

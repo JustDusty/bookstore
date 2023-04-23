@@ -8,11 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.yassine.web.model.Book;
 import com.yassine.web.model.Category;
 import com.yassine.web.model.Review;
-import com.yassine.web.model.Filter.BookSpecifications;
+import com.yassine.web.model.filter.BookSpecifications;
 import com.yassine.web.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -44,31 +45,43 @@ public class BookService {
     return bookRepository.countBooksByAuthor();
   }
 
+  public Long countByCategory(Category category) {
+    return bookRepository.countByCategory(category);
+  }
+
+  public Long countReviewsByBook(Book book) {
+    return bookRepository.countReviewsByBook(book);
+  }
+
   public void delete(Book book) {
     bookRepository.delete(book);
-    categoryService.updateNumberOfBooks();
   }
 
   public void deleteAll() {
     bookRepository.deleteAll();
-    categoryService.updateNumberOfBooks();
   }
+
 
   public void deleteById(long id) {
     Book book = bookRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Book not found"));
     Category category = book.getCategory();
 
-    // Remove the Book entity from the Category entity's collection of books
     if (category != null) {
       category.getBooks().remove(book);
 
       categoryService.save(category);
     }
+    List<Review> reviews = book.getReviews();
+    if (reviews != null)
+      reviews.forEach(Review::getBook);
+    reviewService.deleteAll(reviews);
 
-    // Delete the Book entity
     bookRepository.delete(book);
-    categoryService.updateNumberOfBooks();
+  }
+
+  public void deleteDuplicateBooks() {
+    bookRepository.deleteDuplicateBooks();
   }
 
   public List<Book> findAll() {
@@ -107,7 +120,10 @@ public class BookService {
     return bookRepository.findByAuthorAndPriceBetween(author, minPrice, maxPrice);
   }
 
-
+  public Page<Book> findByAuthorAndPriceBetween(String author, Double minPrice, Double maxPrice,
+      Pageable pageable) {
+    return bookRepository.findByAuthorAndPriceBetween(author, minPrice, maxPrice, pageable);
+  }
 
   public List<Book> findByCategory(Category category) {
     return bookRepository.findByCategory(category);
@@ -116,6 +132,11 @@ public class BookService {
   public List<Book> findByCategoryAndPriceBetween(Category category, Double minPrice,
       Double maxPrice) {
     return bookRepository.findByCategoryAndPriceBetween(category, minPrice, maxPrice);
+  }
+
+  public Page<Book> findByCategoryAndPriceBetween(Category category, Double minPrice,
+      Double maxPrice, Pageable pageable) {
+    return bookRepository.findByCategoryAndPriceBetween(category, minPrice, maxPrice, pageable);
   }
 
   public Book findById(Long id) {
@@ -141,8 +162,14 @@ public class BookService {
   }
 
   public Book findByTitle(String title) {
-    return bookRepository.findByTitle(title);
+    Optional<Book> optional = bookRepository.findByTitle(title);
+    Book book = null;
+    if (optional.isPresent())
+      book = optional.get();
+    return book;
   }
+
+
 
   public List<Book> findByTitleContainingOrAuthorContainingOrIsbnContainingIgnoreCase(
       String keyword) {
@@ -150,9 +177,18 @@ public class BookService {
         .findByTitleContainingOrAuthorContainingOrIsbnContainingIgnoreCase(keyword);
   }
 
+
+  public Page<Book> findByTitleContainingOrAuthorContainingOrIsbnContainingIgnoreCase(
+      String keyword, Pageable pageable) {
+    return bookRepository.findByTitleContainingOrAuthorContainingOrIsbnContainingIgnoreCase(keyword,
+        pageable);
+  }
+
+
   public List<Book> findByTitleIgnoreCaseContaining(String title) {
     return bookRepository.findByTitleIgnoreCaseContaining(title);
   }
+
 
   public Page<Book> findByTitleIgnoreCaseContaining(String title, Pageable paging) {
     return bookRepository.findByTitleIgnoreCaseContaining(title, paging);
@@ -171,7 +207,7 @@ public class BookService {
   }
 
   public List<Review> getAllReviewsForBook(Long bookId) {
-    return reviewService.findByBook(bookId);
+    return reviewService.findByBookId(bookId, Sort.by(Sort.Direction.DESC, "createdAt"));
   }
 
   public List<Book> getAllSpecifications(String author, Long categoryId, Double minPrice,
@@ -183,10 +219,32 @@ public class BookService {
 
   }
 
+  public Page<Book> getAllSpecifications(String author, Long categoryId, Double minPrice,
+      Double maxPrice, Pageable pageable) {
+    Specification<Book> spec = Specification.where(BookSpecifications.hasCategory(categoryId))
+        .and(BookSpecifications.hasAuthor(author))
+        .and(BookSpecifications.priceGreaterThanOrEqual(minPrice))
+        .and(BookSpecifications.priceLessThanOrEqual(maxPrice));
+    return bookRepository.findAll(spec, pageable);
+  }
+
+
   public Book save(Book book) {
     Book b = bookRepository.save(book);
-    categoryService.updateNumberOfBooks();
     return b;
+  }
+
+  public List<Book> saveAll(List<Book> books) {
+    return bookRepository.saveAll(books);
+  }
+
+  @Transactional
+  public void updateBookRating(Long bookId) {
+    Double averageRating = bookRepository.findAverageRatingByBookId(bookId);
+    if (averageRating != null)
+      bookRepository.updateRating(bookId, averageRating);
+    else
+      bookRepository.updateRating(bookId, 0.0);
   }
 
 

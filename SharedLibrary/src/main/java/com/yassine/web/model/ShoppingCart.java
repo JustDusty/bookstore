@@ -1,5 +1,6 @@
 package com.yassine.web.model;
 
+import java.io.Serializable;
 import java.util.Set;
 import com.yassine.auth.model.User;
 import jakarta.persistence.CascadeType;
@@ -24,12 +25,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "shopping_cart")
-public class ShoppingCart {
+public class ShoppingCart implements Serializable {
+  private static final long serialVersionUID = 1L;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "shopping_cart_id")
   private Long id;
   private Integer totalItems;
+  @Column(name = "total_price", scale = 2)
   private Double totalPrice;
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", referencedColumnName = "user_id")
@@ -38,7 +41,7 @@ public class ShoppingCart {
 
   @Column(name = "payment_method")
   private String paymentMethod;
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart", fetch = FetchType.EAGER)
   private Set<CartItem> cartItemList;
 
 

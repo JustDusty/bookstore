@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-   <link rel="stylesheet" th:href = "@{/css/sliderstyle.css}">
+   	<link rel="stylesheet" th:href = "@{/css/sliderstyle.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-xBh2fXIo6C83e6fhzKLTpvaPy6UJ8DMe+KF6Ugz5OGJj47ZXaX5DzS5HGYR48KegTvUK1LZq3mk4x2vL0bFysA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	
 	
 </head>
 <body >
@@ -13,9 +15,9 @@
         <div class="row px-xl-5">
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" th:href="@{/index}">Home</a>
-                    <a class="breadcrumb-item text-dark" th:href="@{/shop}">Shop</a>
-                    <span class="breadcrumb-item active">Shop List</span>
+                    <a class="breadcrumb-item text-dark" th:href="@{/index}">Acceuil</a>
+                    <a class="breadcrumb-item text-dark" th:href="@{/shop}">Magasin</a>
+                    <span class="breadcrumb-item active">Magasin</span>
                 </nav>
             </div>
         </div>
@@ -28,29 +30,30 @@
         <div class="row px-xl-5">
             <!-- Shop Sidebar Start -->
             <div class="col-lg-3 col-md-4">
-            	<form th:action="@{/shop}" method ="get">
+            <form th:action="@{/shop}" method ="get">
+            	
                 <!-- Category Start -->
-					<h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by Category</span></h5>
+					<h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filtrer par Genre</span></h5>
 					<div class="bg-light p-4 mb-30" style="overflow-y:auto; height:300px">
 							<div class="radio-button-wrapper-category mb-3">
 								<div class="search-bar mb-3">
-								  <input type="text" placeholder="Enter Category" class="search-input-category">
+								  <input type="text" placeholder="Entrer un genre" class="search-input-category">
 								</div>
 								<div class="radio-button" th:each="category : ${allcategories}">
 							    	<input type="radio" name="category" th:id="${category.id}" th:value="${category.id}" class="hidden-radio">
 							    	<label th:for="${category.id}" th:text="${category.name}" th:attr="data-catname=${category.name}" ></label>
-							    	<div class="square" th:text="${category.numberOfBooks}?:0"></div>
+							    	<div class="square" th:text="${category.numberOfBooks}?:'0'"></div>
 							  	</div>
 							</div>
 					</div>
 					<!-- Category End -->
 					
 					<!-- Author End -->
-					<h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by Author</span></h5>
+					<h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filtrer par Auteur</span></h5>
 					<div class="bg-light p-4 mb-30" style="overflow-y:auto; height:300px">
 							<div class="radio-button-wrapper-author mb-3">
 								<div class="search-bar mb-3">
-								  <input type="text" placeholder="Enter Author Name" class="search-input-author">
+								  <input type="text" placeholder="Entrer un auteur" class="search-input-author">
 								</div>
 								<div class="radio-button" th:each="author : ${authors}">
 							    	<input type="radio" name="author" th:id="${#ids.seq('option')}" th:value="${author[0]}" class="hidden-radio">
@@ -63,7 +66,7 @@
 	                <!-- Author End -->
 	                
 	                <!-- Price Start -->
-	                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by price</span></h5>
+	                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filtrer par Prix</span></h5>
 	                	<div class="bg-light p-4 mb-30">
 	                	
 						    <div class="container-slider range-slider">
@@ -79,7 +82,7 @@
 	
 					</div>
 				    <div class="text-center">
-				        <button type="submit" class="btn btn-primary mt-1">Filter</button>
+				        <button type="submit" class="btn btn-primary mt-1">Filtrer</button>
 				    </div>
 			    </form>
 				<!-- Price End -->
@@ -91,35 +94,36 @@
             <div class="col-lg-9 col-md-8">
 			  <div class="row pb-3">
 			    <div class="col-12 pb-1">
-			   
+			   	
 			      <div class="d-flex align-items-center justify-content-between mb-4">
-			        <div class="ml-2">
-			          <div class="btn-group ml-1">
-			            <button type="button" class="btn btn-sm btn-light dropdown-toggle ml-2" data-toggle="dropdown">Showing</button>
-			            <div class="dropdown-menu dropdown-menu-right">
-			              <a class="dropdown-item show-page" href="#" data-page="9">9</a>
-			              <a class="dropdown-item show-page" href="#" data-page="27">27</a>
-			              <a class="dropdown-item show-page" href="#" data-page="54">54</a>
-			            </div>
-			          </div>
-			          <!-- <div class="btn-group ml-1">
-			          	<button type="button" class="btn btn-sm btn-light dropdown-toggle ml-2" data-toggle="dropdown">Filter By</button>
-			          	<div class="dropdown-menu dropdown-menu-right">
-			              <a class="dropdown-item sort-button" href="#" data-ord="asc">Price - Highest To Lowest</a>
-			              <a class="dropdown-item sort-button" href="#" data-ord="desc">Price - Lowest To Highest</a>
-			              <a class="dropdown-item sort-button" href="#" data-ord="alph">Alphabetical</a>
-			            </div>
-			          </div> -->
-			        </div>
-			        <div class="d-flex align-items-center justify-content-between mb-1">
+
+							<div class="ml-2">
+							
+								<div class="btn-group ml-1">
+									<button type="button"
+										class="btn btn-sm btn-light dropdown-toggle ml-2"
+										data-toggle="dropdown">
+										Showing <span style="color: #007bff;" th:text="${currentSize}"></span>
+									</button>
+										<div class="dropdown-menu dropdown-menu-right">
+											<a class="dropdown-item show-page" href="#" data-page="9"
+												th:href="@{/shop(keyword=${keyword}, category=${currCategory}, minPrice=${minPrice}, maxPrice=${maxPrice}, author=${currAuthor}, page=0, size=9)}">9</a>
+											<a class="dropdown-item show-page" href="#" data-page="27"
+												th:href="@{/shop(keyword=${keyword}, category=${currCategory}, minPrice=${minPrice}, maxPrice=${maxPrice}, author=${currAuthor}, page=0, size=27)}">27</a>
+											<a class="dropdown-item show-page" href="#" data-page="54"
+												th:href="@{/shop(keyword=${keyword}, category=${currCategory}, minPrice=${minPrice}, maxPrice=${maxPrice}, author=${currAuthor}, page=0, size=54)}">54</a>
+										</div>
+								</div>
+							</div>
+							<div class="d-flex align-items-center justify-content-between mb-1">
 			        	<div class="ml-2">
 			        		<div class="btn-group ml-2">
-			        			<button type="button" class="btn disabled btn-lg btn-light" th:text="${currCategory != null ? currCategory.name : 'All Categories'}"></button>
+			        			<button type="button" class="btn disabled btn-lg btn-light" th:text="${currCategory != null ? currCategory.name : 'Tous Les Genres'}"></button>
 			        		</div>
 			        	</div>
 			        	<div class="ml-2">
 			        		<div class="btn-group ml-2">
-			        			<button type="button" class="btn disabled btn-lg btn-light" th:text="${currAuthor != null ? currAuthor : 'All Authors'}"></button>
+			        			<button type="button" class="btn disabled btn-lg btn-light" th:text="${currAuthor != null ? currAuthor : 'Tous Les Auteurs'}"></button>
 			        		</div>
 			        	</div>
 			        </div>
@@ -128,43 +132,107 @@
 			    </div>
 			    
 			    
-			    <div class="col-lg-4 col-md-6 col-sm-6 pb-1 book-item" th:each="book: ${allbooks}" th:attr="data-price=${book.price}, data-title=${book.title}">
-			      <div class="product-item bg-light mb-4">
-			        <div class="product-img position-relative overflow-hidden">
-			          <img class="img-fluid w-100" th:src="${book.imageUrl}" alt="">
-			          <div class="product-action">
-			            <a class="btn btn-outline-dark btn-square btn-add-to-cart" th:href="@{/shop/{id}(id=${book.id})}" th:attr="data-authenticated=${authenticated}" href=""><i class="fa fa-shopping-cart"></i></a>
-			            <a class="btn btn-outline-dark btn-square" th:href="@{/shop/{id}(id=${book.id})}"><i class="fa fa-search"></i></a>
-			          </div>
-			        </div>
-			        <div class="text-center py-4">
-			          <a class="h6 text-decoration-none text-truncate" href=""><span th:text="${book.title}"></span></a>
-			          <div class="d-flex align-items-center justify-content-center mt-2">
-			            <h5 th:text="${book.price}"></h5><h6 class="text-muted ml-2"></h6>
-			          </div>
-			        </div>
-			      </div>
+			    <div class="col-lg-4 col-md-6 col-sm-6 pb-1" th:each="book: ${allbooks}" th:attr="data-price=${book.price}, data-title=${book.title}">
+			    
+				    <div class="product-item bg-light mb-4" th:attr="data-rating=${book.rating}">
+				        <div class="product-img position-relative overflow-hidden">
+				        <div>
+	                        <img class="img-fluid" th:if="${book.cover !=null}" th:src="${book.imageUrl}" alt="">
+	                    </div>
+				          <div class="product-action">
+				            <a class="btn btn-outline-dark btn-square btn-add-to-cart" th:href="@{/shop/{id}(id=${book.id})}" th:attr="data-authenticated=${authenticated}" href=""><i class="fa fa-shopping-cart"></i></a>
+				            <a class="btn btn-outline-dark btn-square" th:href="@{/shop/{id}(id=${book.id})}"><i class="fa fa-search"></i></a>
+				          </div>
+				        </div>
+				        <div class="text-center py-4">
+				          <a class="h6 text-decoration-none text-truncate" href=""><span th:text="${book.title}"></span></a>
+				          <div class="d-flex align-items-center justify-content-center mt-2">
+				            <h5 th:text="${book.price}"></h5><h6 class="text-muted ml-2"></h6>
+				          </div>
+				          <div class="d-flex align-items-center justify-content-center mb-1">
+				          <div class="shop-rating"></div>
+				          <div class="d-flex align-items-center justify-content-center m-2 pt-1" th:text ="'(' +${book.numberOfRatings} + ')'"></div>
+				          </div>
+				        </div>
+			      	</div>
 			    </div>
 			
 			    <div class="col-12">
-			      <div class="col-12">
-			          <ul class="pagination justify-content-center">
-			          </ul>
-			      </div>
-			    </div>
-			  </div>
+				  <div class="col-12 ">
+					  <div class="pagination d-flex justify-content-center">
+					    <ul style="list-style: none;">
+					    <!-- show previous and first button links -->
+						  <li class="page-item" style="display: inline-block;">
+					        <a th:classappend="page-link" th:href="@{/shop(keyword=${keyword}, category=${categoryId}, minPrice=${minPrice}, maxPrice=${maxPrice}, author=${author}, page=0, size=${size})}"><i class="fa fa-angle-double-left"></i></a>
+					      </li>
+					      <li class="page-item" th:classappend="${currentPage == 0} ? disabled : ''" style="display: inline-block;">
+					        <a th:classappend="page-link" th:href="@{/shop(keyword=${keyword}, category=${categoryId}, minPrice=${minPrice}, maxPrice=${maxPrice}, author=${author}, page=${currentPage - 1}, size=${size})}"><i class="fa fa-angle-left"></i></a>
+					      </li>
+					      <!-- show first page link -->
+					      <li class="page-item" th:classappend="${page == currentPage} ? active : ''" th:if="${currentPage > 3}" style="display: inline-block;">
+					        <a th:classappend="page-link" th:href=" @{/shop(keyword=${keyword}, category=${categoryId}, minPrice=${minPrice}, maxPrice=${maxPrice}, author=${author}, page=0, size=${size})}" th:text="1"></a>
+					      </li>
+					      <!-- show ellipsis if there are more pages before current page -->
+					      <li >
+					        <a th:classappend="page-link" th:text="'...'"></a>
+					      </li>
+					      
+					      <!-- show page links before current page -->
+					      <li class="page-item" th:classappend="${page == currentPage} ? active : ''" th:each="page : ${#numbers.sequence(currentPage - 2, currentPage - 1)}" th:if="${page >= 0}" style="display: inline-block;">
+					        <a th:classappend="page-link" th:href=" @{/shop(keyword=${keyword}, category=${categoryId}, minPrice=${minPrice}, maxPrice=${maxPrice}, author=${author}, page=${page}, size=${size})}" th:text="${page + 1}"></a>
+					      </li>
+					      <!-- show current page link -->
+					      <li class="page-item active" style="display: inline-block;">
+					        <a th:classappend="page-link" th:text="${currentPage + 1}"></a>
+					      </li>
+					      <!-- show page links after current page -->
+					      <li class="page-item" th:classappend="${page == currentPage} ? active : ''" th:each="page : ${#numbers.sequence(currentPage + 1, currentPage + 2)}" th:if="${page < totalPages}" style="display: inline-block;">
+					        <a th:classappend="page-link" th:href=" @{/shop(keyword=${keyword}, category=${categoryId}, minPrice=${minPrice}, maxPrice=${maxPrice}, author=${author}, page=${page}, size=${size})}" th:text="${page + 1}"></a>
+					      </li>
+					      <!-- show ellipsis if there are more pages after current page -->
+					      <li class="page-item disabled" th:if="${currentPage < totalPages - 4}">
+					        <a th:classappend="page-link" th:text="'...'"></a>
+					      </li>
+					      <!-- show last page link -->
+					      <li class="page-item" th:classappend="${page == currentPage} ? active : ''" th:if="${currentPage < totalPages - 3}" style="display: inline-block;">
+					          <a th:classappend="page-link" th:href="@{/shop(keyword=${keyword}, category=${categoryId}, minPrice=${minPrice}, maxPrice=${maxPrice}, author=${author}, page=${totalPages - 1}, size=${size})}" th:text="${totalPages}"></a>
+					        </li>
+					        <!-- show next and last button links -->
+						  <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? disabled : ''" style="display: inline-block;">
+						    <a th:classappend="page-link" th:href="@{/shop(keyword=${keyword}, category=${categoryId}, minPrice=${minPrice}, maxPrice=${maxPrice}, author=${author}, page=${currentPage + 1}, size=${size})}"><i class="fa fa-angle-right"></i></a>
+						  </li>
+						  <li class="page-item"  style="display: inline-block;">
+					        <a th:classappend="page-link" th:href="@{/shop(keyword=${keyword}, category=${categoryId}, minPrice=${minPrice}, maxPrice=${maxPrice}, author=${author}, page=${totalPages - 1}, size=${size})}"><i class="fa fa-angle-double-right"></i></a>
+					      </li>
+						</ul>
+					</div>
+			  	</div>
 			</div>
-
+			
             <!-- Shop Product End -->
         </div>
     </div>
+    </div>
+    </div>
+    
    
    <div th:include="user/fragments/bottomfragment"></div>
+	<script>
+	$('.product-item').each(function() {
+	    var bookRating = $(this).attr('data-rating');
+	    $(this).find(".shop-rating").starRating({
+	      starSize: 20,
+	      initialRating: bookRating,
+	      readOnly: true,
+	    });
+	});
+	
+	</script>
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 	<script th:src = "@{/js/priceslider.js}"></script>
-	<script th:src = "@{/js/pagination.js}"></script>
+	<!-- <script th:src = "@{/js/pagination.js}"></script>-->
 	<script th:src = "@{/js/searchbar.js}"></script>
 
 

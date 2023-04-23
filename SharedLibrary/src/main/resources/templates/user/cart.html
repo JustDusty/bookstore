@@ -9,9 +9,9 @@
         <div class="row px-xl-5">
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" th:href="@{/index}">Home</a>
-                    <a class="breadcrumb-item text-dark" th:href="@{/shop}">Shop</a>
-                    <span class="breadcrumb-item active">Shopping Cart</span>
+                    <a class="breadcrumb-item text-dark" th:href="@{/index}">Acceuil</a>
+                    <a class="breadcrumb-item text-dark" th:href="@{/shop}">Magasin</a>
+                    <span class="breadcrumb-item active">Paiement</span>
                 </nav>
             </div>
         </div>
@@ -26,11 +26,11 @@
                 <table class="table table-light table-borderless table-hover text-center mb-0">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Products</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
+                            <th>Articles</th>
+                            <th>Prix</th>
+                            <th>Quantité</th>
                             <th>Total</th>
-                            <th>Remove</th>
+                            <th>Supprimer</th>
                         </tr>
                     </thead>
                     <tbody class="align-middle" th:each="item : ${shoppingCart.cartItemList}">
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                 </form>-->
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Résumé du panier</span></h5>
                 <div class="bg-light p-30 mb-5">
                     <div class="border-bottom pb-2">
                     
@@ -83,7 +83,7 @@
                             <h5>Total</h5>
                             <h5 th:text="${shoppingCart.totalPrice}"></h5>
                         </div>
-                        <a th:href="@{/checkout}" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</a>
+                        <a th:href="@{/checkout}" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Passer au Paiement</a>
                     </div>
                 </div>
             </div>

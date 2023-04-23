@@ -8,9 +8,9 @@
         <div class="row px-xl-5">
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" th:href="@{/index}">Home</a>
-                    <a class="breadcrumb-item text-dark" th:href="@{/shop}">Shop</a>
-                    <span class="breadcrumb-item active">Checkout</span>
+                    <a class="breadcrumb-item text-dark" th:href="@{/index}">Acceuil</a>
+                    <a class="breadcrumb-item text-dark" th:href="@{/shop}">Magasin</a>
+                    <span class="breadcrumb-item active">Paiement</span>
                 </nav>
             </div>
         </div>
@@ -24,49 +24,50 @@
         <div class="row px-xl-5">
             <div class="col-lg-8">
                 <form th:action="@{/checkout/save-address}" method ="post" th:object="${addressForm}">
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Billing Address</span></h5>
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Adresse de Facturation</span></h5>
                 <div class="bg-light p-30 mb-5">
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label>First Name</label>
-                            <input class="form-control" type="text" th:field="*{firstName}" th:placeholder="${theUser.firstName}?:'First Name'">
+                            <label>Prénom</label>
+                            <input class="form-control" type="text" th:field="*{firstName}" th:placeholder="${theUser.firstName}?:'Prénom'">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Last Name</label>
-                            <input class="form-control" type="text" th:field="*{lastName}" th:placeholder="${theUser.lastName}?:'Lirst Name'">
+                            <label>Nom</label>
+                            <input class="form-control" type="text" th:field="*{lastName}" th:placeholder="${theUser.lastName}?:'Nom'">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>E-mail</label>
                             <input class="form-control" type="text" th:field="*{email}" th:placeholder="${theUser.email}?:'Email'">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Mobile No</label>
-                            <input class="form-control" type="text" th:field="*{phoneNumber}" th:placeholder="${theUser.phoneNumber}?:'Phone Number'">
+                            <label>Num Mobile</label>
+                            <input class="form-control" type="text" th:field="*{phoneNumber}" th:placeholder="${theUser.phoneNumber}?:'Num Mobile'">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Address Line 1</label>
-                            <input class="form-control" type="text"  th:field="*{addressLine1}" th:placeholder="${theUser.addressLine1}?:'Address Line 1'">
+                            <label>Adresse Ligne 1</label>
+                            <input class="form-control" type="text"  th:field="*{addressLine1}" th:placeholder="${theUser.addressLine1}?:'Adresse Ligne 1'">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Address Line 2</label>
-                            <input class="form-control" type="text"  th:field="*{addressLine2}" th:placeholder="${theUser.addressLine2}?:'Address Line 2'">
+                            <label>Adresse Ligne 2</label>
+                            <input class="form-control" type="text"  th:field="*{addressLine2}" th:placeholder="${theUser.addressLine2}?:'Adresse Ligne 2'">
                         </div>
                         
                         <div class="col-md-6 form-group">
-                            <label>City</label>
-                            <input class="form-control" type="text" th:field="*{city}" th:placeholder="${theUser.city}?:'City'">
-                        </div>
-                       
-                        <div class="col-md-6 form-group">
-                            <label>ZIP Code</label>
-                            <input class="form-control" type="text" th:field="*{zipCode}" th:placeholder="${theUser.zipCode}?:'Zip Code	'">
-                        </div>
-                        
-                        <div class="col-md-12">
-                        	<div class ="mt-2 ml-3">
-                            <button type="submit" class="btn btn-primary mt-1">Save Address</button>
-                            </div>
-                        </div>
+                        	<label>Ville</label>
+                        	<input class="form-control" type="text" th:field="*{city}" th:placeholder="${theUser.city}?:'Ville'">
+	                    </div>
+	                   
+	                    <div class="col-md-6 form-group">
+	                        <label>Code Postal</label>
+	                        <input class="form-control" type="text" th:field="*{zipCode}" th:placeholder="${theUser.zipCode}?:'Code Postal'">
+	                    </div>
+	                    
+	                    <div class="col-md-12">
+	                    	<div class ="mt-2 ml-3">
+	                        <button type="submit" class="btn btn-primary mt-1">Enregistrer l'Adresse</button>
+	                        </div>
+	                    </div>
+
                     </div>
                 </div>
                 
@@ -76,10 +77,10 @@
             
             
             <div class="col-lg-4">
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Order Total</span></h5>
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Total de la Commande</span></h5>
                 <div class="bg-light p-30 mb-5" >
                     <div class="border-bottom" >
-                        <h6 class="mb-3">Products</h6>
+                        <h6 class="mb-3">Articles</h6>
                         <div class="d-flex justify-content-between" th:each ="cartItem: ${allCartItems}">
                             <p th:text="${cartItem.book.title}"></p>
                             <p th:text="${cartItem.totalPrice}"></p>
@@ -103,24 +104,24 @@
                     </div>
                 </div>
                 <div class="mb-5">
-                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Paiement</span></h5>
                     <form th:action ="@{/checkout/confirm-order}" id ="order-form" method ="post">
 	                    <div class="bg-light p-30">
 	                        <div class="form-group">
 	                            <div class="custom-control custom-radio">
 	                                <input type="radio" class="custom-control-input" name="payment" id="paypal">
-	                                <label class="custom-control-label" for="paypal">Pay With Card</label>
+	                                <label class="custom-control-label" for="paypal">Paiement bancaire</label>
 	                            </div>
 	                        </div>
 	                        <div class="form-group">
 	                            <div class="custom-control custom-radio">
 	                                <input type="radio" class="custom-control-input" name="payment" id="delivery">
-	                                <label class="custom-control-label" for="delivery">Pay On Delivery</label>
+	                                <label class="custom-control-label" for="delivery">Paiement à la livraison</label>
 	                            </div>
 	                        </div>
 	                        
 	                        
-	                        <button  class="btn btn-block btn-primary font-weight-bold py-3" onclick="showConfirmation()">Place Order</button>
+	                        <button type="button"  class="btn btn-block btn-primary font-weight-bold py-3" onclick="showConfirmation()">Passer la Commande</button>
 	                    </div>
                     </form>
                 </div>
@@ -132,17 +133,17 @@
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title">Confirm Order</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	        <h5 class="modal-title">Confirmer La Commande</h5>
+	        <button type="button" class="close closeBtn" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	        <p>Are you sure you want to confirm your order?</p>
+	       	<p>Êtes-vous sûr de vouloir confirmer votre commande ?</p>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-	        <button type="button" class="btn btn-primary" id="confirmBtn">Confirm</button>
+	        <button type="button" class="btn btn-secondary closeBtn" data-dismiss="modal">Annuler</button>
+	        <button type="button" class="btn btn-primary" id="confirmBtn">Confirmer</button>
 	      </div>
 	    </div>
 	  </div>
@@ -156,16 +157,17 @@
 	<script>
 	function showConfirmation() {
 	    $('#confirmModal').modal('show');
-
 	    $('#confirmBtn').click(function() {
 	      $('#order-form').submit();
-	      toastr.success("Order Confirmed. We have sent you an email with the details of your order.");
+	      toastr.success("Commande confirmée. Nous vous avons envoyé un e-mail avec les détails de votre commande.");
 	      $('#confirmModal').modal('hide');
 	    });
 
-	    $('.close').click(function() {
+	    $('.closeBtn').click(function() {
+			console.log("musttoast");
 	      $('#delivery').prop('checked', false);
-	      toastr.warning("Order Cancelled.");
+	      
+	      toastr.info("Commande annulée.");
 	      $('#confirmModal').modal('hide');
 	    });
 	  }

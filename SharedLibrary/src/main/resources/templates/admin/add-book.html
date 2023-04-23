@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Focus Admin: Basic Form</title>
+<title>Tableau de Bord</title>
 
 <!-- ================= Favicon ================== -->
 <!-- Standard -->
@@ -40,12 +40,11 @@
             <div class="nano-content">
                 <ul>
                     <div class="logo"><a href="index.html">
-                            <!-- <img src="images/logo.png" alt="" /> --><span>Focus</span></a></div>
-                    <li class="label">Main</li>
-                    <li><a class="sidebar-sub-toggle"><i class="ti-home"></i> Dashboard <span
+                    	<span>Admin</span></a></div>
+                    <li><a class="sidebar-sub-toggle"><i class="ti-home"></i> Tableau de bord <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
-                            <li><a th:href="@{/admin/index}">Dashboard</a></li>
+                            <li><a th:href="@{/admin/index}">Tableau de bord</a></li>
                         </ul>
                     </li>
 
@@ -53,19 +52,19 @@
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
 
-                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Categories <span
+                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Genres <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                                 <ul>	
-                                	<li><a th:href="@{/admin/category}">List Categories</a></li>
-                                	<li><a th:href="@{/admin/category/showNewCategoryForm}">Add Categories</a></li>
+                                	<li><a th:href="@{/admin/category}">Afficher Genres</a></li>
+                                	<li><a th:href="@{/admin/category/showNewCategoryForm}">Ajouter Genre</a></li>
                                 </ul>
                             </li>
                             
-                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Books <span
+                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Livres <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                                 <ul>	
-                                	<li><a th:href="@{/admin/book}">List Books</a></li>
-                                	<li><a th:href="@{/admin/book/showNewBookForm}">Add Books</a></li>
+                                	<li><a th:href="@{/admin/book}">Afficher Livres</a></li>
+                                	<li><a th:href="@{/admin/book/showNewBookForm}">Ajouter Livres</a></li>
                                 </ul>
                             </li>
                             
@@ -73,16 +72,16 @@
                         </ul>
                     </li>
                    
-                    <li><a class="sidebar-sub-toggle"><i class="ti-target"></i> Pages <span
+                    <li><a class="sidebar-sub-toggle"><i class="ti-target"></i> Autres Pages <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
-                            <li><a th:href="@{/login}">Login</a></li>
-                            <li><a th:href="@{/register}">Register</a></li>
-                            <li><a th:href="@{/forgotPassword}">Forgot password</a></li>
+                            <li><a th:href="@{/login}">Connexion</a></li>
+                            <li><a th:href="@{/register}">Inscription</a></li>
+                            <li><a th:href="@{/forgotPassword}">Mot de passe Oublié</a></li>
                         </ul>
                     </li>
                    
-                    <li><a th:href="@{/logout}"><i class="ti-close"></i> Logout</a></li>
+                    <li><a th:href="@{/logout}"><i class="ti-close"></i> Déconnexion</a></li>
                 </ul>
             </div>
         </div>
@@ -114,7 +113,7 @@
 											</a></li>
 
 
-											<li><a th:href="@{/logout}"> <i class="ti-power-off"></i> <span>Logout</span>
+											<li><a th:href="@{/logout}"> <i class="ti-power-off"></i> <span>Se déconnecter</span>
 											</a></li>
 										</ul>
 									</div>
@@ -140,8 +139,8 @@
 						<div class="page-header">
 							<div class="page-title">
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-									<li class="breadcrumb-item active">Add-book</li>
+									<li class="breadcrumb-item"><a href="#">Tableau de bord</a></li>
+									<li class="breadcrumb-item active">Ajouter Livre</li>
 								</ol>
 							</div>
 						</div>
@@ -164,13 +163,13 @@
 										        <input type="text" class="form-control" th:field="*{isbn}" />
 										    </div>
 										    <div class="form-group">
-										        <label>Title</label>
+										        <label>Titre</label>
 										        <input type="text" class="form-control" th:field="*{title}" />
 										    </div>
 										    <div class="form-group">
-										        <label for="categoryId">Category</label>
+										        <label for="categoryId">Genre</label>
 											    <select class="form-control" name="categoryId">
-											        <option value="">Select Category</option>
+											        <option value="">Selectionner Genre</option>
 											        <th:block th:each="category : ${categories}">
 											            <option th:value="${category.id}" th:text="${category.name}"></option>
 											        </th:block>
@@ -181,31 +180,32 @@
 										        <textarea th:field="*{description}" class="form-control"></textarea>
 										    </div>
 										    <div class="form-group">
-										        <label>Author</label>
+										        <label>Auteur</label>
 										        <input type="text" class="form-control" th:field="*{author}" />
 										    </div>
 										    <div class="form-group">
-										        <label>Publisher</label>
+										        <label>Editeur</label>
 										        <input type="text" class="form-control" th:field="*{publisher}" />
 										    </div>
 										    <div class="form-group">
-										        <label>Publication Date</label>
+										        <label>Date de Publication</label>
 										        <input type="date" class="form-control" th:field="*{publicationDate}" />
 										    </div>
 										    <div class="form-group">
-										        <label>Number Of Pages</label>
+										        <label>Pages</label>
 										        <input type="number" class="form-control" th:field="*{numberOfPages}" />
 										    </div>
 										    <div class="form-group">
-										        <label>Price</label>
+										        <label>Prix</label>
 										        <input type="text" class="form-control" th:field="*{price}" />
 										    </div>
 										    <div class="form-group">
-										    <label for="image">Cover</label>
+										    <label for="image">Couverture</label>
                        							<input type="file" id ="image" name="image" accept="image/*" class="form-control-file">
                    							</div>
-										    <button type="submit" class="btn btn-primary">Add</button>
-										    
+										    <button type="submit" class="btn btn-primary">Ajouter</button>
+										    <a th:href="@{/admin/book}" class="btn btn-secondary">
+												Retour aux Livres</a>
 										</form>
 										
 
@@ -230,6 +230,7 @@
 	<script th:src="@{/js/lib/menubar/sidebar.js}"></script>
 	<script th:src="@{/js/lib/preloader/pace.min.js}"></script>
 	<!-- sidebar -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
 	<script th:src="@{/js/lib/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>

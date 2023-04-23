@@ -30,13 +30,15 @@ public class ContactController {
 
   @GetMapping({"/", ""})
   public String checkout(Model model, Principal principal) {
-    Optional<User> optional = userService.getByEmailOrUsername(principal.getName());
+    Optional<User> optional = Optional.empty();
+    if (principal != null)
+      optional = userService.getByEmailOrUsername(principal.getName());
     if (optional.isEmpty())
       model.addAttribute("contactDetail", new ContactDetail());
     else {
       User user = optional.get();
       ContactDetail detail = ContactDetail.builder().email(user.getEmail())
-          .fullName(user.getFirstName() + user.getLastName()).build();
+          .fullName(user.getFirstName() + " " + user.getLastName()).build();
       model.addAttribute("contactDetail", detail);
     }
 
@@ -45,7 +47,7 @@ public class ContactController {
 
   @PostMapping("/send")
   public String sendContact(@ModelAttribute("contactDetail") ContactDetail contactDetail,
-      BindingResult bindingResult, Model model, Principal principal) {
+      BindingResult bindingResult, Model model) {
 
     if (bindingResult.hasErrors())
       return "user/contact";

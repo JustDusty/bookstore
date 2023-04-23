@@ -1,6 +1,7 @@
 package com.yassine.web.controller.admin;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,11 +72,33 @@ public class BookController {
     return "admin/add-book";
   }
 
-  @RequestMapping(value = "/update/{id}", method = {RequestMethod.PUT, RequestMethod.POST})
-  public String updateBook(@RequestBody Book book, @RequestParam("image") MultipartFile cover,
-      @RequestParam("isbn") String isbn) throws IOException {
-    byte[] img = cover.getBytes();
-    book.setCover(img);
+  @RequestMapping(value = "/edit/{id}", method = {RequestMethod.PUT, RequestMethod.POST})
+  public String updateBook(@PathVariable("id") Long id, @RequestParam("title") String title,
+      @RequestParam("isbn") String isbn, @RequestParam("categoryId") Long categoryId,
+      @RequestParam("author") String author, @RequestParam("publisher") String publisher,
+      @RequestParam("publicationDate") String publicationDate,
+      @RequestParam("language") String language,
+      @RequestParam("numberOfPages") Integer numberOfPages, @RequestParam("price") Double price,
+      @RequestParam("quantity") Integer quantity, @RequestParam("description") String description,
+      @RequestParam("image") MultipartFile image) throws IOException {
+    Book book = bookService.findById(id);
+    book.setTitle(title);
+    book.setIsbn(isbn);
+    book.setAuthor(author);
+    book.setPublicationDate(LocalDate.parse(publicationDate));
+    book.setPublisher(publisher);
+    book.setLanguage(language);
+    book.setNumberOfPages(numberOfPages);
+    book.setCategory(categoryService.findById(categoryId));
+    book.setPrice(price);
+    book.setQuantity(quantity);
+    book.setDescription(description);
+
+    if (!image.isEmpty()) {
+      byte[] cover = image.getBytes();
+      book.setCover(cover);
+    }
+
     bookService.save(book);
     return "redirect:/admin/book/";
   }

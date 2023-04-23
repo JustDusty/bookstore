@@ -2,7 +2,6 @@
 
 	$(document).on('click', '.btn-add-to-cart', function() {
 		toastr.options = {
-			  toastClass: 'my-toast-warning',
 		      "closeButton": false,
 		      "debug": false,
 		      "newestOnTop": false,

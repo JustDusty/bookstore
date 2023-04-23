@@ -14,8 +14,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -29,9 +33,10 @@ public class Order {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDate orderDate;
   private LocalDate deliveryDate;
+  @Column(name = "total_price", scale = 2)
   private Double totalPrice;
   private String orderStatus;
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", referencedColumnName = "user_id")
   private User user;
 

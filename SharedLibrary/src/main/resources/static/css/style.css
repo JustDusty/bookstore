@@ -76,6 +76,9 @@
 /*  Opensans
 --------------- */
 
+
+
+
 .card-body {
   padding: 0;
 }
@@ -707,8 +710,11 @@ a.dt-button.active:not(.disabled) {
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   transition: margin-left 300ms ease-in-out 0s;
 }
+
+
+
 .logo {
-  background: #343957;
+  background: #2a57c3;
   display: inline-block;
   padding: 15px 0;
   text-align: center;
@@ -4027,6 +4033,8 @@ h6.h1 {
 .pace-inactive {
   display: none;
 }
+
+
 .pace .pace-progress {
   background: #28a745;
   position: fixed;

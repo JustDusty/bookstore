@@ -13,20 +13,12 @@
     });
 
 
-
-    $('#bootstrap-data-table-export').DataTable({
-        dom: 'lBfrtip',
-        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    });
 	
 	$('#row-select').DataTable( {
 			initComplete: function () {
 				this.api().columns().every( function () {
 					var column = this;
-					var select = $('<select class="form-control"><option value=""></option></select>')
+					var select = $('<select class="form-control w-100"><option value=""></option></select>')
 						.appendTo( $(column.footer()).empty() )
 						.on( 'change', function () {
 							var val = $.fn.dataTable.util.escapeRegex(

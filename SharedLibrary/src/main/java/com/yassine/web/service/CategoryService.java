@@ -1,7 +1,6 @@
 package com.yassine.web.service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +43,6 @@ public class CategoryService {
   public List<Category> findAll(String keyword) {
     if (keyword != null)
       return categoryRepository.search(keyword);
-    updateNumberOfBooks();
     return categoryRepository.findAll();
   }
 
@@ -72,10 +70,6 @@ public class CategoryService {
 
 
 
-  public List<Object[]> findNumberOfBooks() {
-    return categoryRepository.getCategoryBookCounts();
-  }
-
   public List<Category> findRandomTwelveCategories() {
     return categoryRepository.findRandomCategories();
   }
@@ -84,16 +78,10 @@ public class CategoryService {
     return categoryRepository.save(category);
   }
 
-  public void updateNumberOfBooks() {
-    List<Object[]> categoryBookCount = findNumberOfBooks();
+  public List<Category> saveAll(List<Category> list) {
+    return categoryRepository.saveAll(list);
 
-
-    for (Category category : categoryRepository.findAll())
-      for (Object[] categoryCount : categoryBookCount)
-        if (Objects.equals(category.getId(), categoryCount[0])) {
-          category.setNumberOfBooks((Long) categoryCount[1]);
-          categoryRepository.save(category);
-          break;
-        }
   }
+
+
 }

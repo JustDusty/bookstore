@@ -1,15 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-<style>
-.my-toast-warning {
-  background-color: #ffeaa5;
-  color: #333;
-  border-color: #e6d980;
-}
-
-</style>
-</head>
 <body>
     <div th:include="user/fragments/topfragment"></div>
 
@@ -25,7 +15,7 @@
 	                        <div class="p-3" style="max-width: 700px;">
 	                            <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Smart Lib</h1>
 	                            <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-	                            <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" th:href="@{/shop}">Shop Now</a>
+	                            <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" th:href="@{/shop}">Accéder Au Magasin</a>
 	                        </div>
 	                    </div>
 	                </div>
@@ -38,7 +28,7 @@
 
     <!-- Categories Start -->
     <div class="container-fluid pt-5">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Genres</span></h2>
         <div class="row px-xl-5 pb-3" >
             <div th:each="category : ${randcategories}" class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <a class="text-decoration-none" th:href="@{/shop(category=${category.id}, minPrice=0, maxPrice=200)}"> 
@@ -49,8 +39,8 @@
                         <div class="flex-fill pl-3">
                             <h6><span th:text="${category.name}"></span></h6>
                             <small class="text-body" >
-                            	<span th:text="${category.numberOfBooks != null ? category.numberOfBooks : '0'}"></span>
-                            	<span> Books</span> 
+                            	<span th:text="${category.numberOfBooks}?:'0'"></span>
+                            	<span> Livres</span> 
                             </small>
                         </div>
                     </div>
@@ -62,13 +52,13 @@
 
     <!-- Products Start -->
     <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Latest Products</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Les Plus Récents</span></h2>
         <div class="row px-xl-5">
         
-            <div th:each="book:${eightbooks}" class="col-lg-3 col-md-4 col-sm-6 pb-1">
+            <div th:each="book:${eightbooks}"  th:attr="data-rating=${book.rating}" class="col-lg-3 col-md-4 col-sm-6 pb-1 latest-book">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" th:src="${book.imageUrl}" alt="">
+                        <img class="img-fluid w-100" th:if="${book.cover !=null}" th:src="${book.imageUrl}" alt="">
                         <div class="product-action">
                             <a class="btn btn-outline-dark btn-square btn-add-to-cart" th:href="@{/shop/{id}(id=${book.id})}" th:attr="data-authenticated=${authenticated}"><i class="fa fa-shopping-cart"></i></a>
                             <a class="btn btn-outline-dark btn-square" th:href="@{/shop/{id}(id=${book.id})}"><i class="fa fa-search"></i></a>
@@ -81,7 +71,10 @@
                         <div class="d-flex align-items-center justify-content-center mt-2">
                             <h5 th:text="${book.price}"></h5>
                         </div>
-                       
+                       <div class="d-flex align-items-center justify-content-center mb-1">
+                       		<div class="my-rating"></div>
+	                       	<div class="d-flex align-items-center justify-content-center m-2 pt-1" th:text ="'(' +${book.numberOfRatings} + ')'"></div>
+                       </div>
                     </div>
                 </div>
             </div>
@@ -90,9 +83,20 @@
     <!-- Products End -->
 
 
-
-    <div th:include="user/fragments/bottomfragment"></div>
 	
+    
+	
+	<div th:include="user/fragments/bottomfragment"></div>
+	<script>
+	  $('.latest-book').each(function() {
+	    var bookRating = $(this).attr('data-rating');
+	    $(this).find(".my-rating").starRating({
+	      starSize: 20,
+	      initialRating: bookRating,
+	      readOnly: true,
+	    });
+	  });
+	</script>
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 

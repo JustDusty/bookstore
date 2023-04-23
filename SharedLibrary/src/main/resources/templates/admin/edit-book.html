@@ -6,9 +6,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Focus Admin: Basic Form</title>
-
-<!-- ================= Favicon ================== -->
 <!-- Standard -->
 <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
 <!-- Retina iPad Touch Icon-->
@@ -41,12 +38,11 @@
             <div class="nano-content">
                 <ul>
                     <div class="logo"><a href="index.html">
-                            <!-- <img src="images/logo.png" alt="" /> --><span>Focus</span></a></div>
-                    <li class="label">Main</li>
-                    <li><a class="sidebar-sub-toggle"><i class="ti-home"></i> Dashboard <span
+                    <span>Admin</span></a></div>
+                    <li><a class="sidebar-sub-toggle"><i class="ti-home"></i> Tableau de bord <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
-                            <li><a th:href="@{/admin/index}">Dashboard</a></li>
+                            <li><a th:href="@{/admin/index}">Tableau de bord</a></li>
                         </ul>
                     </li>
 
@@ -54,19 +50,19 @@
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
 
-                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Categories <span
+                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Genres <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                                 <ul>	
-                                	<li><a th:href="@{/admin/category}">List Categories</a></li>
-                                	<li><a th:href="@{/admin/category/showNewCategoryForm}">Add Categories</a></li>
+                                	<li><a th:href="@{/admin/category}">Afficher Genres</a></li>
+                                	<li><a th:href="@{/admin/category/showNewCategoryForm}">Ajouter Genre</a></li>
                                 </ul>
                             </li>
                             
-                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Books <span
+                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Livres <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                                 <ul>	
-                                	<li><a th:href="@{/admin/book}">List Books</a></li>
-                                	<li><a th:href="@{/admin/book/showNewBookForm}">Add Books</a></li>
+                                	<li><a th:href="@{/admin/book}">Afficher Livres</a></li>
+                                	<li><a th:href="@{/admin/book/showNewBookForm}">Ajouter Livres</a></li>
                                 </ul>
                             </li>
                             
@@ -74,16 +70,16 @@
                         </ul>
                     </li>
                    
-                    <li><a class="sidebar-sub-toggle"><i class="ti-target"></i> Pages <span
+                    <li><a class="sidebar-sub-toggle"><i class="ti-target"></i> Autres Pages <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
-                            <li><a th:href="@{/login}">Login</a></li>
-                            <li><a th:href="@{/register}">Register</a></li>
-                            <li><a th:href="@{/forgotPassword}">Forgot password</a></li>
+                            <li><a th:href="@{/login}">Connexion</a></li>
+                            <li><a th:href="@{/register}">Inscription</a></li>
+                            <li><a th:href="@{/forgotPassword}">Mot de passe Oublié</a></li>
                         </ul>
                     </li>
                    
-                    <li><a th:href="@{/logout}"><i class="ti-close"></i> Logout</a></li>
+                    <li><a th:href="@{/logout}"><i class="ti-close"></i> Déconnexion</a></li>
                 </ul>
             </div>
         </div>
@@ -115,7 +111,7 @@
 											</a></li>
 
 
-											<li><a th:href="@{/logout}"> <i class="ti-power-off"></i> <span>Logout</span>
+											<li><a th:href="@{/logout}"> <i class="ti-power-off"></i> <span>Se déconnecter</span>
 											</a></li>
 										</ul>
 									</div>
@@ -141,8 +137,8 @@
 						<div class="page-header">
 							<div class="page-title">
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-									<li class="breadcrumb-item active">Edit-book</li>
+									<li class="breadcrumb-item"><a href="#">Tableau de Bord</a></li>
+									<li class="breadcrumb-item active">Modifer Livre</li>
 								</ol>
 							</div>
 						</div>
@@ -154,68 +150,118 @@
 						<div class="col-lg-8">
 							<div class="card">
 								<div class="card-title">
-									<h4>Add Book</h4>
+									<h4>Modifier Livre</h4>
 
 								</div>
 								<div class="card-body">
-									<div class="basic-form">
-										<form action="#" th:action="@{/admin/book/save}" enctype="multipart/form-data" th:object="${book}" method="POST">
-											<div class="form-group">
-										        <label>ID</label>
-										        <input type="text" class="form-control" th:field="*{id}" readonly />
-										    </div>
-										    <div class="form-group">
-										        <label>ISBN</label>
-										        <input type="text" class="form-control" th:field="*{isbn}" />
-										    </div>
-										    <div class="form-group">
-										        <label>Title</label>
-										        <input type="text" class="form-control" th:field="*{title}" />
-										    </div>
-										    <div class="form-group">
-										        <label for="categoryId">Category</label>
-											    <select class="form-control" name="categoryId" >
-											        <option value="">Select Category</option>
-											        <th:block th:each="category : ${categories}">
-											            <option th:value="${category.id}" th:text="${category.name}" th:selected="${category.name == book.category?.name}"></option>
-											        </th:block>
-											    </select>
-										    </div>
-										    <div class="form-group">
-										        <label>Description</label>
-										        <textarea th:field="*{description}" class="form-control"></textarea>
-										    </div>
-										    <div class="form-group">
-										        <label>Author</label>
-										        <input type="text" class="form-control" th:field="*{author}" />
-										    </div>
-										    <div class="form-group">
-										        <label>Publisher</label>
-										        <input type="text" class="form-control" th:field="*{publisher}" />
-										    </div>
-										    <div class="form-group">
-											  <label for="publicationDate">Publication Date</label>
-											  
-											    <input type="date" class="form-control" id="publicationDate" name="publicationDate" th:field="*{publicationDate}">
-											   
+									<div class="basic-form edit-div" 
+									th:attr="data-title=${book.title},
+											data-isbn=${book.isbn},
+											data-description=${book.description},
+											data-language=${book.language},
+											data-quantity=${book.quantity},
+											data-price=${book.price},
+											data-numberpage=${book.numberOfPages},
+											data-author=${book.author},
+											data-publisher=${book.publisher},
+											data-publication=${book.publicationDate},
+											data-categoryid=${book.category!=null ? book.category.id : ''}">
+									<form id="edit-form" method="post" th:action="@{/admin/book/edit/{id}(id=${book.id})}" enctype="multipart/form-data">
+					               
+					                   <div class="form-group row">
+					                        <label for="edit-book-id" class="col-sm-2 col-form-label">ID:</label>
+					                        <div class="col-sm-10">
+					                            <input type="text" id="edit-book-id" name="id" class="form-control" th:placeholder="${book.id}" readonly>
+					                        </div>
+					                    </div>
+					                    <div class="form-group row">
+					                        <label for="edit-book-title" class="col-sm-2 col-form-label">Titre:</label>
+					                        <div class="col-sm-10">
+					                            <input type="text" id="edit-book-title" name="title" th:placeholder="${book.title}"class="form-control" required>
+					                        </div>
+					                    </div>
+					                    <div class="form-group row">
+					                        <label for="edit-book-isbn" class="col-sm-2 col-form-label">ISBN:</label>
+					                        <div class="col-sm-10">
+					                            <input type="text" id="edit-book-isbn" name="isbn" th:placeholder="${book.isbn}"class="form-control" required>
+					                        </div>
+					                    </div>
+					                    <div class="form-group row">
+					                        <label for="edit-book-author" class="col-sm-2 col-form-label">Auteur:</label>
+					                        <div class="col-sm-10">
+					                            <input type="text" id="edit-book-author" name="author" th:placeholder="${book.author}" class="form-control" required>
+					                        </div>
+					                    </div>
+					                    <div class="form-group row">
+					                        <label for="edit-book-publisher" class="col-sm-2 col-form-label">Editeur:</label>
+					                        <div class="col-sm-10">
+					                            <input type="text" id="edit-book-publisher" name="publisher" th:placeholder="${book.publisher}" class="form-control" required>
+					                        </div>
+					                    </div>
+					                    <div class="form-group row">
+					                        <label for="edit-book-publication" class="col-sm-2 col-form-label">Date de Publication:</label>
+					                        <div class="col-sm-10">
+					                            <input type="date" id="edit-book-publication" name="publicationDate" th:placeholder="${book.publicationDate}" class="form-control" required>
+					                        </div>
+					                    </div>
+					                    <div class="form-group-row">
+						                    <label for="edit-book-category" class="col-sm-2 col-form-label">Genre:</label>
+						                    <div class="col-sm-10">
+												<select name="categoryId" class="form-select" id="edit-book-category" >
+													<option value="">Selectionner Genre</option>
+													<th:block th:each="category : ${categories}">
+														<option th:value="${category.id}" th:text="${category.name}" th:selected="${(book.category != null) and (category.id == book.category.id)}"></option>
+													</th:block>
+												</select>
 											</div>
+										</div>
+					                    <div class="form-group row">
+					                        <label for="edit-book-language" class="col-sm-2 col-form-label">Langue:</label>
+					                        <div class="col-sm-10">
+					                            <input type="text" id="edit-book-language" name="language"  th:placeholder="${book.language}" class="form-control" required>
+					                        </div>
+					                    </div>
+					                    <div class="form-group row">
+					                        <label for="edit-book-numberpage" class="col-sm-2 col-form-label">Pages:</label>
+					                        <div class="col-sm-10">
+					                            <input type="text" id="edit-book-numberpage" name="numberOfPages" th:placeholder="${book.numberOfPages}" class="form-control" required>
+					                        </div>
+					                    </div>
+					                    <div class="form-group row">
+					                        <label for="edit-book-price" class="col-sm-2 col-form-label">Prix:</label>
+					                        <div class="col-sm-10">
+					                            <input type="text" id="edit-book-price" name="price"  th:placeholder="${book.price}"class="form-control" required>
+					                        </div>
+					                    </div>
+					                    <div class="form-group row">
+					                        <label for="edit-book-quantity" class="col-sm-2 col-form-label">Quantité:</label>
+					                        <div class="col-sm-10">
+					                            <input type="text" id="edit-book-quantity" name="quantity" th:placeholder="${book.quantity}" class="form-control" required>
+					                        </div>
+					                    </div>
+					                    <div class="form-group row">
+					                        <label for="edit-book-description" class="col-sm-2 col-form-label">Description:</label>
+					                        <div class="col-sm-10">
+					                            <textarea id="edit-book-description" name="description"  th:placeholder="${book.description}"class="form-control" required></textarea>
+					                        </div>
+					                    </div>
+					                     <div class="form-group-row row">
+										    <label for="edit-book-image" class="col-sm-2 col-form-label">Couverture: </label>
+										    <div class="col-sm-5">
+										        <img th:src="${book.imageUrl}">
+										    </div>
+										    <div class="col-sm-5">
+										        <input type="file" class="form-control-file" id="edit-book-image" name="image">
+										    </div>
+										</div>
+					                <div class="modal-footer">
+					                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+					                    <a th:href="@{/admin/book}" class="btn btn-secondary">
+												Annuler</a>
+					                </div>
+						            </form>
+								</div>
 
-										    <div class="form-group">
-										        <label>Number Of Pages</label>
-										        <input type="number" class="form-control" th:field="*{numberOfPages}" />
-										    </div>
-										    <div class="form-group">
-										        <label>Price</label>
-										        <input type="text" class="form-control" th:field="*{price}" />
-										    </div>
-										   <div class="form-group">
-										        <label for="image">Cover</label>
-										        <input type="file" id="image" name="image" accept="image/*" th:placeholder="${imageUrl}" class="form-control-file" />
-										    </div>
-										    <button type="submit" class="btn btn-primary">Add</button>
-										</form>
-
-									</div>
 								</div>
 							</div>
 						</div>
@@ -226,24 +272,49 @@
 	</div>
 
 
-
-
-
-
 	<script th:src="@{/js/lib/jquery.min.js}"></script>
 	<script th:src="@{/js/lib/jquery.nanoscroller.min.js}"></script>
 	<!-- nano scroller -->
 	<script th:src="@{/js/lib/menubar/sidebar.js}"></script>
 	<script th:src="@{/js/lib/preloader/pace.min.js}"></script>
-	<!-- sidebar -->
-
+    	
 	<script th:src="@{/js/lib/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
 	<script>
 	$( "#datepicker" ).datepicker({
 	    dateFormat: 'd-MMMM-yyyy'
 	  });
+	</script>
+	<script>
+	$(function() {
+	    var title = $('.edit-div').data('title');
+	    var isbn = $('.edit-div').data('isbn');
+	    var description = $('.edit-div').data('description');
+	    var author = $('.edit-div').data('author');
+	    var publisher = $('.edit-div').data('publisher');
+	    var publicationDate = $('.edit-div').data('publication');
+	    var language = $('.edit-div').data('language');
+	    var numberpage = $('.edit-div').data('numberpage');
+	    var price = $('.edit-div').data('price');
+	    var quantity = $('.edit-div').data('quantity');
+
+	    var category = $('.edit-div').data('categoryid');
+
+	    $('#edit-book-title').val(title);
+	    $('#edit-book-isbn').val(isbn);
+	    $('#edit-book-description').val(description);
+	    $('#edit-book-author').val(author);
+	    $('#edit-book-category').val(category);
+	    $('#edit-book-publisher').val(publisher);
+	    $('#edit-book-publication').val(publicationDate);
+	    $('#edit-book-language').val(language);
+	    $('#edit-book-numberpage').val(numberpage);
+	    $('#edit-book-price').val(price);
+	    $('#edit-book-quantity').val(quantity);
+
+
+	});
+
 	</script>
 </body>
 

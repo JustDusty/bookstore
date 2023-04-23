@@ -67,12 +67,16 @@ public class CategoryController {
   public String updateCategory(@PathVariable("id") Long id, @RequestParam("name") String name,
       @RequestParam("description") String description, @RequestParam("image") MultipartFile image)
       throws IOException {
+
     Category category = categoryService.findById(id);
     category.setName(name);
     category.setDescription(description);
-    byte[] cover = image.getBytes();
-    category.setCoverImage(cover);
-    categoryService.save(category);
+    if (!image.isEmpty()) {
+      byte[] cover = image.getBytes();
+      category.setCoverImage(cover);
+    }
+    if (!(category.getCoverImage() == image.getBytes()))
+      categoryService.save(category);
     return "redirect:/admin/category/";
   }
 

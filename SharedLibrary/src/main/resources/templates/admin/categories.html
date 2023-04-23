@@ -5,10 +5,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- theme meta -->
-    <meta name="theme-name" content="focus" />
-    <title>Focus Admin: Creative Admin Dashboard</title>
-    <!-- ================= Favicon ================== -->
     <!-- Standard -->
     <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
     <!-- Retina iPad Touch Icon-->
@@ -20,7 +16,10 @@
     <!-- Standard iPhone Touch Icon-->
     <link rel="apple-touch-icon" sizes="57x57" href="http://placehold.it/57.png/000/fff">
     <!-- Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
    	<link th:href="@{/css/lib/font-awesome.min.css}" rel="stylesheet">
     <link th:href="@{/css/lib/themify-icons.css}" rel="stylesheet">
     <link th:href="@{/css/lib/menubar/sidebar.css}" rel="stylesheet">
@@ -38,7 +37,6 @@
 }
 </style>    
 </head>
-
 <body>
 
     <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
@@ -46,12 +44,11 @@
             <div class="nano-content">
                 <ul>
                     <div class="logo"><a href="index.html">
-                            <!-- <img src="images/logo.png" alt="" /> --><span>Focus</span></a></div>
-                    <li class="label">Main</li>
-                    <li><a class="sidebar-sub-toggle"><i class="ti-home"></i> Dashboard <span
+                    <span>Admin</span></a></div>
+                    <li><a class="sidebar-sub-toggle"><i class="ti-home"></i> Tableau de bord <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
-                            <li><a th:href="@{/admin/index}">Dashboard</a></li>
+                            <li><a th:href="@{/admin/index}">Tableau de bord</a></li>
                         </ul>
                     </li>
 
@@ -59,19 +56,19 @@
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
 
-                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Categories <span
+                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Genres <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                                 <ul>	
-                                	<li><a th:href="@{/admin/category}">List Categories</a></li>
-                                	<li><a th:href="@{/admin/category/showNewCategoryForm}">Add Categories</a></li>
+                                	<li><a th:href="@{/admin/category}">Afficher Genres</a></li>
+                                	<li><a th:href="@{/admin/category/showNewCategoryForm}">Ajouter Genre</a></li>
                                 </ul>
                             </li>
                             
-                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Books <span
+                            <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Livres <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                                 <ul>	
-                                	<li><a th:href="@{/admin/book}">List Books</a></li>
-                                	<li><a th:href="@{/admin/book/showNewBookForm}">Add Books</a></li>
+                                	<li><a th:href="@{/admin/book}">Afficher Livres</a></li>
+                                	<li><a th:href="@{/admin/book/showNewBookForm}">Ajouter Livres</a></li>
                                 </ul>
                             </li>
                             
@@ -79,73 +76,59 @@
                         </ul>
                     </li>
                    
-                    <li><a class="sidebar-sub-toggle"><i class="ti-target"></i> Pages <span
+                    <li><a class="sidebar-sub-toggle"><i class="ti-target"></i> Autres Pages <span
                                 class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
-                            <li><a th:href="@{/login}">Login</a></li>
-                            <li><a th:href="@{/register}">Register</a></li>
-                            <li><a th:href="@{/forgotPassword}">Forgot password</a></li>
+                            <li><a th:href="@{/login}">Connexion</a></li>
+                            <li><a th:href="@{/register}">Inscription</a></li>
+                            <li><a th:href="@{/forgotPassword}">Mot de passe Oublié</a></li>
                         </ul>
                     </li>
                    
-                    <li><a th:href="@{/logout}"><i class="ti-close"></i> Logout</a></li>
+                    <li><a th:href="@{/logout}"><i class="ti-close"></i> Déconnexion</a></li>
                 </ul>
             </div>
         </div>
     </div>
-    <!-- /# sidebar -->
+	<!-- /# sidebar -->
 
-    <div class="header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="float-left">
-                        <div class="hamburger sidebar-toggle">
-                            <span class="line"></span>
-                            <span class="line"></span>
-                            <span class="line"></span>
-                        </div>
-                    </div>
-                    <div class="float-right">
-                        
-                        <div class="dropdown dib">
-                            <div class="header-icon" data-toggle="dropdown">
-                                <span class="user-avatar"><span sec:authentication="name"></span>
-                                    <i class="ti-angle-down f-s-10"></i>
-                                </span>
-                                <div class="drop-down dropdown-profile dropdown-menu dropdown-menu-right">
-                                    <div class="dropdown-content-heading">
-                                        
-                                    </div>
-                                    <div class="dropdown-content-body">
-                                        <ul>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="ti-user"></i>
-                                                    <span>Admin</span>
-                                                </a>
-                                            </li>
+	<div class="header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="float-left">
+						<div class="hamburger sidebar-toggle">
+							<span class="line"></span> <span class="line"></span> <span
+								class="line"></span>
+						</div>
+					</div>
+					<div class="float-right">
 
-                                         
-                                            <li>
-                                                <a th:href="@{/logout}">
-                                                    <i class="ti-power-off"></i>
-                                                    <span>Logout</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+						<div class="dropdown dib">
+							<div class="header-icon" data-toggle="dropdown">
+								<span class="user-avatar"><span sec:authentication="name"></span>
+									<i class="ti-angle-down f-s-10"></i> </span>
+								<div
+									class="drop-down dropdown-profile dropdown-menu dropdown-menu-right">
+									<div class="dropdown-content-heading"></div>
+									<div class="dropdown-content-body">
+										<ul>
+											<li><a href="#"> <i class="ti-user"></i> <span>Admin</span>
+											</a></li>
 
 
-
+											<li><a th:href="@{/logout}"> <i class="ti-power-off"></i> <span>Se déconnecter</span>
+											</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
     <div class="content-wrap">
         <div class="main">
@@ -153,9 +136,6 @@
                 <div class="row">
                     <div class="col-lg-8 p-r-0 title-margin-right">
                         <div class="page-header">
-                            <div class="page-title">
-                                <h1>Hello, <span>Welcome Here</span></h1>
-                            </div>
                         </div>
                     </div>
                     <!-- /# column -->
@@ -163,8 +143,8 @@
                         <div class="page-header">
                             <div class="page-title">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Show Categories</li>
+                                    <li class="breadcrumb-item"><a href="#">Tableau de Bord</a></li>
+                                    <li class="breadcrumb-item active">Afficher Genres</li>
                                 </ol>
                             </div>
                         </div>
@@ -177,35 +157,27 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-title">
-                                    <h4>Showing Categories </h4>
+                                    <h4>Genres </h4>
                                 </div>
-                                <div class="bootstrap-data-table-panel">
-                                    <div class="table-responsive" style="width:100%">
-                                        <table id="row-select" class="display table table-borderd table-hover">
+                                
+                                    <div class="table-responsive" >
+                                        <table id="row-select" class="display table table-bordered table-hover">
                                             <thead>             	
                                                 <tr >                  
-                                                    <th>ID</th>
-                                                    <th>Cover</th>
-                                                    <th>Name</th>
-                                                    <th>Number of books</th>
-                                                    <th>Description</th>
-                                                    <th>Created At</th>
-                                                    <th>Updated At</th>
                                                     <th>Actions</th>
+                                                    <th>Image</th>
+                                                    <th>Nom</th>
+                                                    <th>Nombre de livres</th>
+                                                    <th>Description</th>
+                                                    <th>Date Création</th>
+                                                    <th>Date Mise à jour</th>
+                                                    
 
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             <tr th:each="category : ${categories}" style="width:100%;">
-                                            	<td th:text="${category.id}" ></td>
-                                            	<td><img width="400" height="400" class = "book-cover" alt="Category Cover" th:if="${category.coverImage != null}" th:src="${category.imageUrl}" /></td>
-                                            	
-                    							<td th:text="${category.name}"></td>
-                    							<td th:text="${category.numberOfBooks}"></td>
-                    							<td th:text="${category.description}"></td>
-                    							<td th:text="${#temporals.format(category.createdAt, 'd MMMM yyyy HH:mm:ss')}"></td>
-                    							<td th:text="${#temporals.format(category.updatedAt, 'd MMMM yyyy HH:mm:ss')}"></td>
-                    							<td> 
+                                            	<td> 
 	                    							<div class="d-flex">
 	                    							
 	                    							
@@ -213,75 +185,84 @@
 	                        							th:attr="data-category-id=${category.id}, 
 													               data-category-name=${category.name}, 
 													               data-category-description=${category.description},
-													               data-category-image=${category.coverImage != null ? category.imageUrl : 'no image'}">
-											        Edit
+													               data-category-img = ${category.imageUrl}">
+											        Modifier
 											    	</button>
-											    	<a th:href="@{/admin/category/delete/{id}(id=${category.id})}" class="btn btn-danger btn-block">Delete</a>
+											    	<a th:href="@{/admin/category/delete/{id}(id=${category.id})}" class="btn btn-danger btn-block">Supprimer</a>
 											    	</div>
 											    	<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-modal-label"
 																		     aria-hidden="true">
-																		    <div class="modal-dialog" role="document">
-																		        <div class="modal-content">
-																		            <form id="edit-form" method="post" th:action="@{/admin/category/update/{id}(id=${category.id})}" enctype="multipart/form-data">
-																		                <div class="modal-header">
-																		                    <h5 class="modal-title" id="edit-modal-label">Edit Category</h5>
-																		                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																		                        <span aria-hidden="true">&times;</span>
-																		                    </button>
-																		                </div>
-																		                <div class="modal-body">
-																		                
-																		                   <div class="form-group row">
-																		                        <label for="edit-category-id" class="col-sm-2 col-form-label">ID:</label>
-																		                        <div class="col-sm-10">
-																		                            <input type="text" id="edit-category-id" name="id" class="form-control" readonly>
-																		                        </div>
-																		                    </div>
-																		                    <div class="form-group row">
-																		                        <label for="edit-category-name" class="col-sm-2 col-form-label">Name:</label>
-																		                        <div class="col-sm-10">
-																		                            <input type="text" id="edit-category-name" name="name" class="form-control" required>
-																		                        </div>
-																		                    </div>
-																		                    <div class="form-group row">
-																		                        <label for="edit-category-description" class="col-sm-2 col-form-label">Description:</label>
-																		                        <div class="col-sm-10">
-																		                            <textarea id="edit-category-description" name="description" class="form-control" required></textarea>
-																		                        </div>
-																		                    </div>
-																		                    <div class="form-group-row">
-																							    <label for="edit-category-image" class="col-sm-2 col-form-label">Cover Image: </label>
-																							    <div class="col-sm-10">
-																							    	<input type="file" class="form-control-file" id="edit-category-image" name="image">
-																							    </div>
-																							</div>
-																		                </div>
-																		                <div class="modal-footer">
-																		                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-																		                    <button type="submit" class="btn btn-primary">Save</button>
-																		                </div>
-																			            </form>
-																		        </div>
+													    <div class="modal-dialog" role="document">
+													        <div class="modal-content">
+													            <form id="edit-form" method="post" th:action="@{/admin/category/update/{id}(id=${category.id})}" enctype="multipart/form-data">
+													                <div class="modal-header">
+													                    <h5 class="modal-title" id="edit-modal-label">Modifier Genre</h5>
+													                    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+													                        <span aria-hidden="true">&times;</span>
+													                    </button>
+													                </div>
+													                <div class="modal-body">
+													                
+													                   <div class="form-group row">
+													                        <label for="edit-category-id" class="col-sm-2 col-form-label">ID:</label>
+													                        <div class="col-sm-10">
+													                            <input type="text" id="edit-category-id" name="id" class="form-control" readonly>
+													                        </div>
+													                    </div>
+													                    <div class="form-group row">
+													                        <label for="edit-category-name" class="col-sm-2 col-form-label">Nom:</label>
+													                        <div class="col-sm-10">
+													                            <input type="text" id="edit-category-name" name="name" class="form-control" required>
+													                        </div>
+													                    </div>
+													                    <div class="form-group row">
+													                        <label for="edit-category-description" class="col-sm-2 col-form-label">Description:</label>
+													                        <div class="col-sm-10">
+													                            <textarea id="edit-category-description" name="description" class="form-control" required></textarea>
+													                        </div>
+													                    </div>
+													                    <div class="form-group-row row">
+																		    <label for="edit-category-image" class="col-sm-2 col-form-label">Image: </label>
+																		    <div class="col-sm-5">
+																		    	<img id="category-image">
+																		    </div>
+																		    <div class="col-sm-5">
+																		    	<input type="file" class="form-control-file" id="edit-category-image" name="image">
 																		    </div>
 																		</div>
-											    	
+													                </div>
+													                <div class="modal-footer">
+													                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+													                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+													                </div>
+														            </form>
+													        </div>
+													    </div>
+													</div>
+						    	
 	                        						
                     							</td>
                     						
                     							
+                                            	<td><img width="400" height="400" class = "book-cover" alt="Category Cover" th:if="${category.coverImage != null}" th:src="${category.imageUrl}" /></td>
+                                            	
+                    							<td th:text="${category.name}"></td>
+                    							<td th:text="${category.numberOfBooks}"></td>
+                    							<td th:text="${category.description}"></td>
+                    							<td th:text="${#temporals.format(category.createdAt, 'd MMMM yyyy HH:mm:ss')}"></td>
+                    							<td th:text="${#temporals.format(category.updatedAt, 'd MMMM yyyy HH:mm:ss')}"></td>
+                    							
                								</tr>
                												 
                                             <tfoot>                               
-                                            	<tr >
-                                            		<th>ID</th>
-                                            		<th>Cover</th>
+                                            	<tr>
                                             		<th>Name</th>
-                                            		<th>Number of books</th>
-                                                    <th>Description</th>
-                                                    <th>Created At</th>
-                                                    <th>Updated At</th>
-                                            		<th>Actions</th>
-													
+                                            		<th>Name</th>
+                                            		<th>Name</th>
+                                            		<th>Name</th>
+                                            		<th>Name</th>
+                                            		<th>Name</th>
+                                            		<th>Name</th>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -290,14 +271,12 @@
                             </div>
                             <!-- /# card -->
                         </div>
-                        <!-- /# column -->
-                    </div>
+
                     <!-- /# row -->
                 </section>
 																    	
             </div>
         </div>
-    </div>
     
 
 
@@ -309,30 +288,27 @@
     <script th:src="@{/js/lib/menubar/sidebar.js}"></script>
     <script th:src="@{/js/lib/preloader/pace.min.js}"></script>
     <!-- sidebar -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
 	<script th:src="@{/js/lib/data-table/datatables.min.js}"></script>
     <script th:src="@{/js/lib/data-table/dataTables.buttons.min.js}"></script>
-    <script th:src="@{/js/lib/data-table/jszip.min.js}"></script>
-    <script th:src="@{/js/lib/data-table/pdfmake.min.js}"></script>
-    <script th:src="@{/js/lib/data-table/vfs_fonts.js}"></script>
-    <script th:src="@{/js/lib/data-table/buttons.html5.min.js}"></script>
-    <script th:src="@{/js/lib/data-table/buttons.print.min.js}"></script>
-    <script th:src="@{/js/lib/data-table/buttons.colVis.min.js}"></script>
     <script th:src="@{/js/lib/data-table/datatables-init.js}"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
     $(function() {
-	    // Populate modal form with book data when Edit button is clicked
 	    $('.edit-btn').click(function() {
 	        var categoryId = $(this).data('category-id');
 	        var categoryName = $(this).data('category-name');
 	        var categoryDescription = $(this).data('category-description');
-	        var categoryImage = $(this).data('category-image');
+	        var categoryImg = $(this).data('category-img');
 	        $('#edit-category-id').val(categoryId);
 	        $('#edit-category-name').val(categoryName);
 	        $('#edit-category-description').val(categoryDescription);
-	        $('#edit-category-image').val(categoryImage);
+	        $('img#category-image').attr('src', categoryImg);
 	    });
 
 	    

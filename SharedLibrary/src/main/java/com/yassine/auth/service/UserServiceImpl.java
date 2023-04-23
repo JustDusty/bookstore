@@ -89,13 +89,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     helper.setFrom(senderEmail, "No-Reply");
     helper.setTo(recipientEmail);
+    String subject = "Voici le lien pour réinitialiser votre mot de passe";
 
-    String subject = "Here's the link to reset your password";
+    String content =
+        "<p>Bonjour,</p>" + "<p>Vous avez demandé à réinitialiser votre mot de passe.</p>"
+            + "<p>Cliquez sur le lien ci-dessous pour changer votre mot de passe :</p>"
+            + "<p><a href=\"" + link + "\">Changer mon mot de passe</a></p>" + "<br>"
+            + "<p>Ignorez cet e-mail si vous n'avez pas fait la demande.</p>";
 
-    String content = "<p>Hello,</p>" + "<p>You have requested to reset your password.</p>"
-        + "<p>Click the link below to change your password:</p>" + "<p><a href=\"" + link
-        + "\">Change my password</a></p>" + "<br>"
-        + "<p>Ignore this email if you have not made the request.</p>";
 
     helper.setSubject(subject);
     helper.setText(content, true);
@@ -124,7 +125,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
       theUser.setResetPasswordTokenExpiration(LocalDateTime.now().plusHours(24));
       userRepository.save(theUser);
     } else
-      throw new UsernameNotFoundException("Could not find any user with the email " + email);
+      throw new UsernameNotFoundException("Nom d'utilisateur introuvable " + email);
   }
 
 

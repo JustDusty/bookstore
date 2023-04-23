@@ -13,8 +13,8 @@
         <div class="row px-xl-5">
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" th:href="@{/index}">Home</a>
-                    <span class="breadcrumb-item active">Contact</span>
+                    <a class="breadcrumb-item text-dark" th:href="@{/index}">Acceuil</a>
+                    <span class="breadcrumb-item active">Contactez-Nous</span>
                 </nav>
             </div>
         </div>
@@ -24,7 +24,7 @@
 
     <!-- Contact Start -->
     <div class="container-fluid">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Contact Us</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Contactez-Nous</span></h2>
         <div class="row px-xl-5">
             <div class="col-lg-7 mb-5">
                 <div class="contact-form bg-light p-30">
@@ -32,7 +32,7 @@
                     <form method ="post" th:action="@{/contact/send}" th:object="${contactDetail}" name="sentMessage" id="contactForm" novalidate="novalidate">
                         <div class="control-group">
                             <input type="text" class="form-control" id="name" th:field="*{fullName}" placeholder="Full Name"
-                                required="required" data-validation-required-message="Please enter your full name" />
+                                required="required" data-validation-required-message="Entrez votre nom complet" />
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
@@ -42,24 +42,23 @@
                         	</div>
                         	<div th:unless="${authenticated}">
                         		<input type="email" class="form-control" id="email" th:field="*{email}" placeholder = "Your Email"
-                                required="required" data-validation-required-message="Please enter your email" />
+                                required="required" data-validation-required-message="Entrez votre adresse e-mail" />
                             <p class="help-block text-danger"></p>
                         	</div>
                         </div>
                         <div class="control-group">
                             <input type="text" class="form-control" id="subject" th:field="*{subject}" placeholder="Subject"
-                                required="required" data-validation-required-message="Please enter a subject" />
+                                required="required" data-validation-required-message="Entrez un sujet" />
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
                             <textarea class="form-control" rows="8" id="message" th:field="*{message}" placeholder="Message"
                                 required="required"
-                                data-validation-required-message="Please enter your message"></textarea>
+                                data-validation-required-message="Entrez votre message"></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
                         <div>
-                            <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">Send
-                                Message</button>
+                            <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">Envoyer Message</button>
                         </div>
                     </form>
                 </div>
@@ -70,8 +69,8 @@
                 </div>
                 <div class="bg-light p-30 mb-3">
                     <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Dhar El Mehraz B.P 50 Fès 30000 Maroc, FES</p>
-                    <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>www.fsdm.usmba.ac.ma</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>0659-310753</p>
+                    <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i><a href ="www.fsdm.usmba.ac.ma">www.fsdm.usmba.ac.ma</a></p>
+                    <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>0689099125</p>
                 </div>
             </div>
         </div>

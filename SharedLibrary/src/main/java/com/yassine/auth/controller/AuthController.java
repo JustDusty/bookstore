@@ -31,9 +31,10 @@ public class AuthController {
 
   @GetMapping("/access-denied")
   public String getAccessDenied(Model model) {
-    model.addAttribute("message", "403 - Access Denied");
+    model.addAttribute("message", "403 - Acces Interdit");
     return "auth/message";
   }
+
 
 
   @GetMapping({"/login"})
@@ -43,7 +44,7 @@ public class AuthController {
         .anyMatch(auth -> auth.getAuthority().equals("ADMIN"));
     if (authentication == null || authentication instanceof AnonymousAuthenticationToken)
       return "auth/login";
-    model.addAttribute("alreadyLoggedIn", "You are already Logged in");
+    model.addAttribute("alreadyLoggedIn", "Vous etes deje connectes");
 
     if (isAdmin)
       return "redirect:/admin";
@@ -65,7 +66,7 @@ public class AuthController {
   public String registerUser(Model model, @Valid User user, HttpServletRequest request,
       BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
-      model.addAttribute("successMessage", "Sign-up failed");
+      model.addAttribute("successMessage", "Inscription echouee");
       model.addAttribute("bindingResult", bindingResult);
       return "auth/register";
     }
@@ -76,7 +77,7 @@ public class AuthController {
       return "auth/register";
     }
     userService.saveUser(user);
-    model.addAttribute("successMessage", "Registered successfully!");
+    model.addAttribute("successMessage", "Inscription avec succes!");
 
     return "auth/login";
   }

@@ -7,7 +7,11 @@
 opacity: 0;
 pointer-events: none;
 }
-
+.cover-img{
+height: 200%;
+width:200%;
+object-fit:none;
+}
 </style>
 </head>
 <div th:include="user/fragments/topfragment"></div>
@@ -20,9 +24,9 @@ pointer-events: none;
         <div class="row px-xl-5">
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" th:href="@{/index}">Home</a>
-                    <a class="breadcrumb-item text-dark" th:href="@{/shop}">Shop</a>
-                    <span class="breadcrumb-item active">Shop Detail</span>
+                    <a class="breadcrumb-item text-dark" th:href="@{/index}">Acceuil</a>
+                    <a class="breadcrumb-item text-dark" th:href="@{/shop}">Magasin</a>
+                    <span class="breadcrumb-item active">Détails</span>
                 </nav>
             </div>
         </div>
@@ -34,27 +38,31 @@ pointer-events: none;
     <div class="container-fluid pb-5">
         <div class="row px-xl-5">
             <div class="col-lg-5 mb-30">
-                <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner bg-light">
-                        <div class="carousel-item active">
-                            <img class="w-100 h-100" th:src="${book.imageUrl}" alt="Cover">
+
+                    <div class="bg-light">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <img th:src="${book.imageUrl}" alt="Cover" class="cover-img">
                         </div>
                     </div>
-                </div>
+
             </div>
 
             <div class="col-lg-7 h-auto mb-30">
-                <div class="h-100 bg-light p-30">
+                <div class="h-100 bg-light p-30 the-book" th:attr="data-rating=${book.rating}">
                     <h3 th:text = "${book.title}"></h3>
-                    <div class="d-flex mb-3 pt-1"></div>
+                    <div class="d-flex mb-3">
+                    	<div class="main-rating"></div>
+                    	<small class="pt-1" th:text ="'(' +${book.numberOfRatings} + ' Avis)'"></small>
+                    </div>
                     <h3 class="font-weight-semi-bold mb-4" th:text = "${book.price}"></h3>
-                    <p class="mb-4" th:text = "${book.description}?:'No Description'"></p>
+                    <p class="mb-4" th:text = "${book.description}?:'Pas de description'"></p>
                     <div class="row">
                     	<div class ="col-lg-5">
+		                    
 		                    <div class="d-flex mb-3">
-		                        <strong class="text-dark mr-3">Category:</strong>
-		                        <div class="custom-control-inline">
-		                            <label for="size-1" th:text = "${book.category.name}"></label>
+		                        <strong class="text-dark mr-3">Genres:</strong>
+		                        <div class="custom-control-inline" th:each="tag: ${book.tags}">
+		                            <label for="size-1" th:text = "${book.category.name} +', ' +${tag}"></label>
 		                        </div>
 		                    </div>
 		                    <div class="d-flex mb-3">
@@ -64,27 +72,33 @@ pointer-events: none;
 		                        </div>
 		                    </div>
 		                    <div class="d-flex mb-3">
-		                        <strong class="text-dark mr-3">Author:</strong>
+		                        <strong class="text-dark mr-3">Auteur:</strong>
 		                        <div class="custom-control-inline">
 		                            <label  for="size-1" th:text = "${book.author}"></label>
 		                        </div>
 		                    </div>
 		                    <div class="d-flex mb-3">
-		                        <strong class="text-dark mr-3">Publisher:</strong>
+		                        <strong class="text-dark mr-3">Editeur:</strong>
 		                        <div class="custom-control-inline">
 		                            <label  for="size-1" th:text = "${book.publisher}"></label>
+		                        </div>
+		                    </div>
+		                    <div class="d-flex mb-3">
+		                        <strong class="text-dark mr-3">Plus d'Informations:</strong>
+		                        <div class="custom-control-inline">
+		                        	<a th:href= "${book.InfoLink}"><i class="fa fa-regular fa-arrow-up-right-from-square"></i></a>
 		                        </div>
 		                    </div>
 		                </div>
 		                <div class ="col-lg-5 ml-5">
 	                    <div class="d-flex mb-3">
-		                        <strong class="text-dark mr-3">Publication Date: </strong>
+		                        <strong class="text-dark mr-3">Date de Publication: </strong>
 		                        <div class="custom-control-inline">
 		                            <label  for="size-1" th:text = "${book.publicationDate}"></label>
 		                        </div>
 		                    </div>
 		                    <div class="d-flex mb-3">
-		                        <strong class="text-dark mr-3">Language:</strong>
+		                        <strong class="text-dark mr-3">Langue:</strong>
 		                        <div class="custom-control-inline">
 		                            <label  for="size-1" th:text = "${book.language}"></label>
 		                        </div>
@@ -96,12 +110,19 @@ pointer-events: none;
 		                        </div>
 		                    </div>
 		                    <div class="d-flex mb-3">
-		                        <strong class="text-dark mr-3">In Stock:</strong>
+		                        <strong class="text-dark mr-3">En Stock:</strong>
 		                        <div class="custom-control-inline">
 		                            <label  for="size-1" th:text = "${book.quantity}"></label>
 		                        </div>
 		                    </div>
+		                    <div class="d-flex mb-3">
+		                        <strong class="text-dark mr-3">Aperçu:</strong>
+		                        <div class="custom-control-inline">
+		                        	<a th:href= "${book.previewLink}"><i class="fa fa-regular fa-arrow-up-right-from-square"></i></a>
+		                        </div>
+		                    </div>
 	                    </div>
+	                    
 	                    
 	                </div>
                     <form method="post" th:action ="@{/add-to-cart}">
@@ -120,7 +141,7 @@ pointer-events: none;
 	                                </button>
 	                            </div>
 	                        </div>
-	                        <button type = "submit" class="btn btn-primary px-3 btn-add-to-cart" th:attr="data-authenticated=${authenticated}" ><i class="fa fa-shopping-cart mr-1"></i>Add To Cart</button> 
+	                        <button type = "submit" class="btn btn-primary px-3 btn-add-to-cart" th:attr="data-authenticated=${authenticated}" ><i class="fa fa-shopping-cart mr-1"></i>Ajouter au Panier</button> 
 	                    </div>
                     </form>
                     <!-- <div class="d-flex pt-2">
@@ -147,46 +168,54 @@ pointer-events: none;
             <div class="col">
                 <div class="bg-light p-30">
                     <div class="nav nav-tabs mb-4">
-                        <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Summary</a>
-                        <a class="nav-item nav-link text-dark" data-toggle="tab" data-target="#tab-pane-3" href="#tab-pane-3">Comments</a>
+                        <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Résumé</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" data-target="#tab-pane-3" href="#tab-pane-3">Avis</a>
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab-pane-1">
-                            <h4 class="mb-3">Product Description</h4>
-                            <p>Eos no lorem eirmod diam diam, eos elitr et gubergren diam s.</p>
+                            <h4 class="mb-3">Description</h4>
+                            <p th:text = "${book.description}"></p>
                         </div>
                         
                         <div class="tab-pane fade" id="tab-pane-3">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h4 class="mb-4">reviews for <span th:text ="${book.title}"></span></h4>
-                                    <div class="media mb-4" th:each ="review : ${reviews}" >
+                                <div class ="overflow-auto" style="height:600px;">
+                                    <h4 class="mb-4"><span class="font-weight-bold">Avis Pour :</span><span th:text ="${book.title}"></span></h4>
+                                    <div class="media mb-4 get-review-ratings" th:each ="review : ${reviews}" th:attr="data-reviewrating=${review.rating}">
                                         <div class="media-body">
                                         	<hr class="my-4">
                                             <h6><span th:text="${review.fullName}"></span><small> - <i><span th:text = "${#temporals.format(review.createdAt, 'dd-MMMM-yyyy HH:mm', new java.util.Locale('en', 'EN'))}"></span></i></small></h6>
+                                            <div class="form-rating">
+                                            </div>
                                             <p th:text ="${review.message}"></p>
                                         </div>
                                     </div>
-                                   
+                                 </div>   
                                 </div>
-                                <div class="col-md-6">
-                                    <h4 class="mb-4">Leave a review</h4>
-                                    <small>Your email address will not be published. Required fields are marked *</small>
+                                <div class="col-md-6 h-100">
+                                    <h4 class="mb-4">Laisser un avis</h4>
                                     <form th:action="@{/shop/{id}(id=${book.id})}" method="post" >
+	                                    <div class="d-flex my-3">
+	                                        <p class="mb-0 mr-2">Votre évaluation * :</p>
+	                                        <div class="form-rating"></div>
+	        								<input type="hidden" id="rating" name="formrating" value="4">
+	                                    </div>
+	                                    <small>Votre adresse e-mail ne sera pas publiée. Les champs obligatoires sont marqués *</small>
                                         <div class="form-group">
-                                            <label for="message">Your Review *</label>
-                                            <textarea id="message" cols="30" rows="5" name = "message" class="form-control" placeholder= "Your Review"></textarea>
+                                            <label for="message">Votre Avis *</label>
+                                            <textarea id="message" cols="30" rows="5" name = "message" class="form-control" placeholder= "Avis"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name">Your Name *</label>
-                                            <input type="text" class="form-control" id="name" th:name ="fullName" th:placeholder="${theUser != null ? theUser.fullName : 'Your Name'}">
+                                            <label for="name">Votre Nom *</label>
+                                            <input type="text" class="form-control" id="name" th:name ="fullName" th:placeholder="${theUser != null ? theUser.fullName : 'Nom'}">
                                         </div>
                                         <div class="form-group">
-                                            <label for="email">Your Email *</label>
-                                            <input type="text" class="form-control" id="email" th:name="email"  th:placeholder="${theUser != null ? theUser.email : 'Your Email'}" >
+                                            <label for="email">Votre Email *</label>
+                                            <input type="text" class="form-control" id="email" th:name="email"  th:placeholder="${theUser != null ? theUser.email : 'Email'}" >
                                         </div>
                                         <div class="form-group mb-0">
-                                            <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
+                                            <input type="submit" value="Laisser un avis" class="btn btn-primary px-3">
                                         </div>
                                     </form>
                                 </div>
@@ -202,16 +231,16 @@ pointer-events: none;
 
     <!-- Products Start -->
     <div class="container-fluid py-5">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Vous pourriez également aimer</span></h2>
         <div class="row px-xl-5">
             <div class="col">
-                <div class="owl-carousel related-carousel" id="product-carousel">
-	                <div th:each ="similarBook : ${similarBooks}">
-	                    <div class="product-item bg-light">
+                <div class="owl-carousel related-carousel book-items" id="product-carousel">
+	                <div th:each ="similarBook : ${similarBooks}" >
+	                    <div class="product-item bg-light" th:attr="data-simrating=${similarBook.rating}">
 	                        <div class="product-img position-relative overflow-hidden">
-	                            <img class="img-fluid w-100" th:src ="${similarBook.imageUrl}" alt="">
+	                            <img class="img-fluid" th:if="${book.cover !=null}" th:src ="${similarBook.imageUrl}" alt="">
 	                            <div class="product-action">
-	                                <a class="btn btn-outline-dark btn-square btn-add-to-cart" href="" th:attr="data-authenticated=${authenticated}"><i class="fa fa-shopping-cart"></i></a>
+	                                <a class="btn btn-outline-dark btn-square btn-add-to-cart" th:href="@{/shop/{id}(id=${similarBook.id})}" th:attr="data-authenticated=${authenticated}"><i class="fa fa-shopping-cart"></i></a>
 	                                <a class="btn btn-outline-dark btn-square" th:href="@{/shop/{id}(id=${similarBook.id})}"><i class="fa fa-search"></i></a>
 	                            </div>
 	                        </div>
@@ -220,6 +249,10 @@ pointer-events: none;
 	                            <div class="d-flex align-items-center justify-content-center mt-2">
 	                                <h5 th:text="${similarBook.price}"></h5>
 	                            </div>
+	                            <div class="d-flex align-items-center justify-content-center mb-1">
+		                       		<div class="sim-rating"></div>
+			                       	<div class="d-flex align-items-center justify-content-center m-2 pt-1" th:text ="'(' +${similarBook.numberOfRatings} + ')'"></div>
+		                       </div>
 	                        </div>
 	                    </div>
 	                </div>
@@ -232,7 +265,43 @@ pointer-events: none;
 
 	<script th:src="@{/shopp/js/bookcart.js}"></script>
    	<div th:include="user/fragments/bottomfragment"></div>
+	<script>
 	
+
+	$(".product-item").each(function() {
+	    var bookRatingSim = $(this).attr('data-simrating');
+	    $(this).find(".sim-rating").starRating({
+	        starSize: 20,
+	        initialRating: bookRatingSim,
+	        readOnly: true,
+	    });
+	});
+	$(".get-review-ratings").each(function() {
+	    var bookRatingSim = $(this).attr('data-reviewrating');
+	    $(this).find(".form-rating").starRating({
+	        starSize: 20,
+	        initialRating: bookRatingSim,
+	        readOnly: true,
+	    });
+	});
+	var bookRatingMain = $('.the-book').attr('data-rating');
+	$(".main-rating").starRating({
+	    starSize: 20,
+	    initialRating:bookRatingMain,
+	    readOnly:true,
+
+	});
+	$(".form-rating").starRating({
+	    disableAfterRate:false,
+	    starSize: 20,
+		initialRating:4,
+		useFullStars:true,
+		ratedColors:['#ffa700','#ffa700','#ffa700','#ffa700','#ffa700'],
+	    callback: function(currentRating, $el){
+			$("#rating").val(currentRating);
+	    }
+	});
+	</script>
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 </body>

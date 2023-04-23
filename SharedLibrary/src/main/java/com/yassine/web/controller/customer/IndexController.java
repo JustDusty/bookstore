@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import com.yassine.web.model.Book;
-import com.yassine.web.model.Category;
 import com.yassine.web.service.BookService;
 import com.yassine.web.service.CategoryService;
 
@@ -22,10 +21,6 @@ public class IndexController {
   @Autowired
   public CategoryService categoryService;
 
-  @ModelAttribute("randcategories")
-  public List<Category> getCategories() {
-    return categoryService.findRandomTwelveCategories();
-  }
 
 
   @ModelAttribute("eightbooks")

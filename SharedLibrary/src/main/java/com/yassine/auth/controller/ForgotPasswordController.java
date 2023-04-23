@@ -38,12 +38,12 @@ public class ForgotPasswordController {
 
       userService.sendPasswordEmail(email, resetPasswordLink);
       model.addAttribute("message",
-          "We have sent a reset password link to your email. Please check.");
+          "On vous a envoyé un mail pour récuperer votre mot de passe. Merci de vérifier votre boîte de réception");
 
     } catch (UsernameNotFoundException ex) {
       model.addAttribute("error", ex.getMessage());
     } catch (UnsupportedEncodingException | MessagingException e) {
-      model.addAttribute("error", "Error while sending email");
+      model.addAttribute("error", "Erreur d'envoi de mail");
     }
 
     return "auth/forgot_password_form";
@@ -59,17 +59,17 @@ public class ForgotPasswordController {
 
     Optional<User> user = userService.getByResetPasswordToken(token);
 
-    model.addAttribute("title", "Reset your password");
+    model.addAttribute("title", "Réinitialiser mot de passe");
     if (user.isEmpty())
       model.addAttribute("message", "Invalid Token");
     else {
       User theUser = user.get();
       LocalDateTime expiryDate = theUser.getResetPasswordTokenExpiration();
       if (expiryDate.isBefore(LocalDateTime.now()))
-        model.addAttribute("message", "The reset password token has expired.");
+        model.addAttribute("message", "Le token de réinitialisation de mot de passe est éxpiré");
       else {
         userService.updatePassword(theUser, password);
-        model.addAttribute("message", "You have successfully changed your password.");
+        model.addAttribute("message", "Vous avez réinitialisé votre mot de passe avec succès!");
       }
     }
 
@@ -91,7 +91,7 @@ public class ForgotPasswordController {
     model.addAttribute("token", token);
 
     if (!user.isPresent()) {
-      model.addAttribute("message", "Invalid Token");
+      model.addAttribute("message", "Token invalide.");
       return "message";
     }
 

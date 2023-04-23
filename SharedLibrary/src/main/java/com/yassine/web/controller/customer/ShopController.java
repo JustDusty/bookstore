@@ -1,15 +1,17 @@
 package com.yassine.web.controller.customer;
 
-import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.github.javafaker.Faker;
 import com.yassine.web.model.Book;
 import com.yassine.web.model.Category;
 import com.yassine.web.service.BookService;
@@ -17,7 +19,7 @@ import com.yassine.web.service.CategoryService;
 
 @Controller
 public class ShopController {
-
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
   @Autowired
   public BookService bookService;
 
@@ -31,34 +33,43 @@ public class ShopController {
       @RequestParam(name = "category", required = false) Long categoryId,
       @RequestParam(name = "minPrice", required = false) Double minPrice,
       @RequestParam(name = "maxPrice", required = false) Double maxPrice,
-      @RequestParam(name = "author", required = false) String author) {
-    List<Book> books = new ArrayList<>();
+      @RequestParam(name = "author", required = false) String author,
+      @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "9") int size,
+      @RequestParam(name = "currentSize", required = false) Integer currentSize) {
+    Page<Book> bookPage;
 
-
-
+    if (currentSize != null)
+      size = currentSize;
     if (keyword != null)
-      books =
-          bookService.findByTitleContainingOrAuthorContainingOrIsbnContainingIgnoreCase(keyword);
+      bookPage = bookService.findByTitleContainingOrAuthorContainingOrIsbnContainingIgnoreCase(
+          keyword, PageRequest.of(page, size));
     else if (author != null && categoryId != null) {
-      books = bookService.getAllSpecifications(author, categoryId, minPrice, maxPrice);
+      bookPage = bookService.getAllSpecifications(author, categoryId, minPrice, maxPrice,
+          PageRequest.of(page, size));
       model.addAttribute("currAuthor", author);
       model.addAttribute("currCategory", categoryService.findById(categoryId));
     } else if (author == null && categoryId != null) {
       Category category = categoryService.findById(categoryId);
-      books = bookService.findByCategoryAndPriceBetween(category, minPrice, maxPrice);
+      bookPage = bookService.findByCategoryAndPriceBetween(category, minPrice, maxPrice,
+          PageRequest.of(page, size));
       model.addAttribute("currCategory", category);
     } else if (author != null) {
-      books = bookService.findByAuthorAndPriceBetween(author, minPrice, maxPrice);
+      bookPage = bookService.findByAuthorAndPriceBetween(author, minPrice, maxPrice,
+          PageRequest.of(page, size));
       model.addAttribute("currAuthor", author);
     } else
-      books = bookService.findAll();
-
-
+      bookPage = bookService.findAll(PageRequest.of(page, size));
+    model.addAttribute("currMinPrice", minPrice);
+    model.addAttribute("currMaxPrice", maxPrice);
     model.addAttribute("keyword", keyword);
-    model.addAttribute("allbooks", books);
-    model.addAttribute("img", new Faker().avatar().image());
+    model.addAttribute("allbooks", bookPage.getContent());
+    model.addAttribute("currentSize", size);
+    model.addAttribute("currentPage", bookPage.getNumber());
+    model.addAttribute("totalPages", bookPage.getTotalPages());
+    model.addAttribute("totalItems", bookPage.getTotalElements());
     return "user/shop";
   }
+
 
   @ModelAttribute("authors")
   public List<Object[]> getAuthors() {
@@ -67,6 +78,8 @@ public class ShopController {
 
   @ModelAttribute("allcategories")
   public List<Category> getCategories() {
+    for (Category category : categoryService.findAll(null))
+      logger.warn("Number of Books :" + category.getNumberOfBooks());
     return categoryService.findAllByOrderByNameAsc();
   }
 

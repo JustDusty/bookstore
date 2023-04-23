@@ -3529,16 +3529,19 @@ input[type="button"].btn-block {
 }
 
 .custom-control-label::before {
-  position: absolute;
-  top: 0.25rem;
-  left: -1.5rem;
-  display: block;
-  width: 1rem;
-  height: 1rem;
-  pointer-events: none;
-  content: "";
-  background-color: #fff;
+    position: absolute;
+    top: 0.25rem;
+    left: -1.5rem;
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    pointer-events: none;
+    content: "";
+    background-color: #fff; /* Set the background color to your desired color */
+    border: 2px solid #007bff; /* Set the border color to your desired color */
+
 }
+
 
 .custom-control-label::after {
   position: absolute;
@@ -4567,7 +4570,14 @@ input[type="button"].btn-block {
   padding-left: 0;
   list-style: none;
 }
-
+.pagination ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.pagination li {
+  margin: 0 1px;
+}
 .page-link {
   position: relative;
   display: block;
@@ -4577,6 +4587,11 @@ input[type="button"].btn-block {
   color: #007bff;
   background-color: #fff;
   border: 1px solid #dee2e6;
+}
+
+.active-page {
+  background-color: #007bff;
+  color: #fff;
 }
 
 .page-link:hover {
@@ -5308,7 +5323,7 @@ button.close {
 a.close.disabled {
   pointer-events: none;
 }
-
+/* 
 .toast {
   flex-basis: 350px;
   max-width: 350px;
@@ -5349,7 +5364,7 @@ a.close.disabled {
 
 .toast-body {
   padding: 0.75rem;
-}
+} */
 
 .modal-open {
   overflow: hidden;
@@ -6156,7 +6171,7 @@ button.bg-light:focus {
 }
 
 .bg-dark {
-  background-color: #343a40 !important;
+  background-color: #57626c!important;
 }
 
 a.bg-dark:hover, a.bg-dark:focus,
@@ -9152,7 +9167,7 @@ button.bg-dark:focus {
 .text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
 }
 
 .text-left {
@@ -9264,7 +9279,7 @@ a.text-primary:hover, a.text-primary:focus {
 }
 
 .text-secondary {
-  color: #6c757d !important;
+  color: white !important;
 }
 
 a.text-secondary:hover, a.text-secondary:focus {
@@ -9494,7 +9509,7 @@ a.text-dark:hover, a.text-dark:focus {
 
 .navbar-dark .navbar-nav .nav-link {
   padding: 20px 10px;
-  color: #6c757d ;
+  color: white ;
   outline: none;
 }
 
@@ -9609,6 +9624,19 @@ a.text-dark:hover, a.text-dark:focus {
 
 .product-item {
   transition: .5s;
+  height:500px;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+
+.product-item .product-img {
+  flex: 1; /* this will make sure the image takes up all available space */
+}
+
+.book-items {
+  display: flex !important;
+  flex-wrap: wrap !important;
 }
 
 .product-action {
@@ -9661,9 +9689,22 @@ a.text-dark:hover, a.text-dark:focus {
   margin-top: 0;
   transition: .3s .15s;
 }
+.product-img {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex: 1 !important;
+}
 
 .product-item .product-img img {
   transition: .5s;
+}
+
+.product-img img{
+	
+  width: fit-content !important;
+  height: auto;
+
 }
 
 .product-item:hover .product-img img {
