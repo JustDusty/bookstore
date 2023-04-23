@@ -7,8 +7,5 @@
   <name>BookstoreManagement</name>
   <modules>
 	  <module>SharedLibrary</module>
-	  
   </modules>
-  
-
 </project>

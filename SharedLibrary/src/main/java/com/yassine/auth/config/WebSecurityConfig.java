@@ -49,37 +49,22 @@ public class WebSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.authenticationProvider(authenticationProvider());
-
-
     http.authorizeHttpRequests()
-        // URL matching for accessibility
-        .requestMatchers("/", "/login", "/register/**", "/oauth2/**", "/forgotPassword",
-            "/forgotPassword/**", "/index", "/index/**", "/shop/**", "/shop", "/contact",
-            "/actuator/**")
+        .requestMatchers("/", "/login", "/register/**", "/oauth2/**", "/forgotPassword/**",
+            "/index/**", "/shop/**", "/contact", "/actuator/**")
         .permitAll().requestMatchers("/cart/**", "checkout/**").hasAnyAuthority("USER")
         .requestMatchers("/admin/**", "/actuator/**", "/cart/**", "checkout/**")
         .hasAnyAuthority("ADMIN").requestMatchers("/**").hasAnyAuthority("USER", "ADMIN")
         .anyRequest().authenticated().and().oauth2Login(login -> login.loginPage("/login")
             .defaultSuccessUrl("/").userInfoEndpoint().userService(oauthUserService));
-
     http.formLogin(login -> login.loginPage("/login").failureUrl("/login?error=true")
         .successHandler(loginSuccessHandler).usernameParameter("email")
-        .passwordParameter("password"))
-        // logout
-        .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/index").invalidateHttpSession(true).deleteCookies("JSESSIONID"))
-        .exceptionHandling(handling -> handling.accessDeniedPage("/access-denied"));
-    //
-
-
-    http.sessionManagement(management -> management.sessionFixation().migrateSession()
-        .maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/login?expired")
-        .sessionRegistry(sessionRegistry()).and().invalidSessionUrl("/login"));
+        .passwordParameter("password"));
+    http.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .logoutSuccessUrl("/index"));
+    http.exceptionHandling(handling -> handling.accessDeniedPage("/access-denied"));
 
     http.csrf().disable();
-    // http.requiresChannel().anyRequest().requiresSecure();
-
-
     http.headers(headers -> headers.frameOptions().sameOrigin());
 
 
