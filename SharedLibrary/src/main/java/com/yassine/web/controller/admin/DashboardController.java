@@ -17,40 +17,20 @@ import com.yassine.web.config.HttpTraces;
 import com.yassine.web.config.HttpTraces.Exchange;
 
 @Controller
-@RequestMapping("/admin/index")
+@RequestMapping
 public class DashboardController {
 
   @Value("${myapp.actuator.url}")
   private String actuatorUrl;
 
+
   private HttpTraces fetchJsonDataFromURL(String url) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
-    URL mapping = new URL(url);
-    HttpTraces trace = mapper.readValue(mapping, HttpTraces.class);
+    URL jsonResponse = new URL(url);
+    HttpTraces trace = mapper.readValue(jsonResponse, HttpTraces.class);
     filterHttpTrace(trace);
+
     return trace;
-  }
-
-
-  @GetMapping
-  public String adminHome(Model model) throws IOException {
-    model.addAttribute("httpTraces", fetchJsonDataFromURL(actuatorUrl));
-
-    return "admin/index";
-  }
-
-  public void filterHttpTrace(HttpTraces httpTrace) {
-    List<Exchange> exchanges = httpTrace.getExchanges();
-    formatExchangeTimes(exchanges);
-    List<Exchange> filtered = new ArrayList<>();
-    for (Exchange exchange : exchanges) {
-      String uri = exchange.getRequest().getUri();
-      if (!(uri.contains("css") || uri.contains("js") || uri.contains("fonts")
-          || uri.contains("images") || uri.contains("img") || uri.contains("placeholder")
-          || uri.contains("favicon")))
-        filtered.add(exchange);
-    }
-    httpTrace.setExchanges(filtered);
   }
 
 
@@ -67,6 +47,28 @@ public class DashboardController {
       String formattedTimetaken = String.format("%d.%09d s", seconds, nanos);
       exchange.setTimeTaken(formattedTimetaken);
     }
+  }
+
+
+  @GetMapping("/admin/index")
+  public String dashboard(Model model) throws IOException {
+    model.addAttribute("httpTraces", fetchJsonDataFromURL(actuatorUrl));
+    return "admin/index";
+  }
+
+
+  public void filterHttpTrace(HttpTraces httpTrace) {
+    List<Exchange> exchanges = httpTrace.getExchanges();
+    formatExchangeTimes(exchanges);
+    List<Exchange> filtered = new ArrayList<>();
+    for (Exchange exchange : exchanges) {
+      String uri = exchange.getRequest().getUri();
+      if (!(uri.contains("css") || uri.contains("js") || uri.contains("fonts")
+          || uri.contains("images") || uri.contains("img") || uri.contains("placeholder")
+          || uri.contains("favicon")))
+        filtered.add(exchange);
+    }
+    httpTrace.setExchanges(filtered);
   }
 
 

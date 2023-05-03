@@ -64,7 +64,7 @@ public class Book {
   @Column(name = "price", scale = 2)
   private Double price;
 
-  @ElementCollection(fetch = FetchType.EAGER)
+  @ElementCollection(fetch = FetchType.LAZY)
   @CollectionTable(name = "book_tags", joinColumns = @JoinColumn(name = "book_id"))
   @Column(name = "tag", nullable = false)
   @Cascade({org.hibernate.annotations.CascadeType.ALL})
@@ -81,7 +81,7 @@ public class Book {
   private Category category;
 
 
-  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.EAGER,
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY,
       orphanRemoval = true)
   @ToString.Exclude
   @OnDelete(action = OnDeleteAction.CASCADE)

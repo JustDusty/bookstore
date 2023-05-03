@@ -54,15 +54,20 @@ public class CartController {
     Optional<CartItem> optionalCartItem =
         cartItems.stream().filter(item -> item.getBook().getId().equals(bookId)).findFirst();
 
+    Integer available = book.getQuantity();
     if (optionalCartItem.isPresent()) {
       CartItem cartItem = optionalCartItem.get();
       cartItem.setQuantity(quantity + cartItem.getQuantity());
+      book.setQuantity(available - quantity);
+      bookService.save(book);
       cartItem.setTotalPrice(cartItem.calculateTotalPrice());
     } else {
       CartItem cartItem = new CartItem();
       cartItem.setBook(book);
+      book.setQuantity(available - quantity);
       cartItem.setQuantity(quantity);
       cartItem.setTotalPrice(cartItem.calculateTotalPrice());
+      bookService.save(book);
       cartItemService.save(cartItem);
       cartItem.setCart(shoppingCart);
       cartItems.add(cartItem);
@@ -89,11 +94,14 @@ public class CartController {
 
     if (optionalCartItem.isPresent()) {
       CartItem itemToDelete = optionalCartItem.get();
+      Book book = itemToDelete.getBook();
+      book.setQuantity(itemToDelete.getQuantity());
       cartItems.remove(itemToDelete);
       cart.setCartItemList(cartItems);
       cart.setTotalItems(cart.calculateTotalItems());
       cart.setTotalPrice(cart.calculateTotalPrice());
       cartItemService.delete(itemToDelete);
+      bookService.save(book);
       shoppingCartService.save(cart);
     }
 

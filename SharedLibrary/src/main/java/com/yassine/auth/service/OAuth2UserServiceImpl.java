@@ -58,7 +58,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
       userRepository.save(user);
     }
 
-    // Create a new OAuth2User with the updated user attributes
     Map<String, Object> attributes = new HashMap<>(oauth2User.getAttributes());
     attributes.put("email", email);
     attributes.put("given_name", firstName);

@@ -1,3 +1,4 @@
+
 .navbar .sidebar-toggle {
     float: left;
     margin-left: -4px;
@@ -13,7 +14,7 @@
     left: 0;
     bottom: 0;
     width: 250px;
-    background: #2a57c3;
+    background: linear-gradient(111.5deg, rgb(20, 100, 196) 0.4%, rgb(33, 152, 214) 100.2%);
     /* font-size: 14px; */
     z-index: 100;
     overflow: auto;
@@ -86,7 +87,6 @@
     padding: 10px;
     line-height: 30px;
     border-bottom: none;
-  	background: #2a57c3;
     text-decoration: none;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
@@ -94,7 +94,7 @@
 }
 
 .sidebar .nano-content>ul li>a:hover {
-  background: linear-gradient(to right, #5772FE , #6D85FB);
+  background: linear-gradient(111.5deg, rgb(20, 100, 196) 0.4%, rgb(33, 152, 214) 100.2%);
 }
 
 .sidebar .nano-content>ul li>a>.sidebar-collapse-icon {
@@ -130,6 +130,8 @@
     width: 3px;
 }
 
+
+
 .sidebar .nano-content>ul li.open>a>.sidebar-collapse-icon {
     -webkit-transform: rotate(-180deg);
     transform: rotate(-180deg);
@@ -146,7 +148,8 @@ html.rtl .sidebar .nano-content>ul>li.label, html.rtl .sidebar .nano-content>ul>
 }
 
 .sidebar .nano-content>ul>li.active>a, .sidebar .nano-content>ul>li.open>a, .sidebar .nano-content>ul>li>ul {
-    background: linear-gradient(to right, #5772FE , #6D85FB);
+  background: linear-gradient(111.5deg, rgb(20, 100, 196) 0.4%, rgb(33, 152, 214) 100.2%);
+
 }
 
 .sidebar .nano-content>ul>li>ul>li.label, .sidebar .nano-content>ul>li>ul>li.content, .sidebar .nano-content>ul>li>ul>li>a {

@@ -161,6 +161,10 @@ public class BookService {
     return bookRepository.findByPriceBetween(minPrice, maxPrice, pageable);
   }
 
+  public Page<Book> findByPriceBetween(Double minPrice, Double maxPrice, Pageable pageable) {
+    return bookRepository.findByPriceBetween(minPrice, maxPrice, pageable);
+  }
+
   public Book findByTitle(String title) {
     Optional<Book> optional = bookRepository.findByTitle(title);
     Book book = null;

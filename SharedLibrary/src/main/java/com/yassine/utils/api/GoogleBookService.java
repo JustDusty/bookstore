@@ -70,29 +70,30 @@ public class GoogleBookService {
 
   private LocalDate convertToDate(String dateString) {
     String validDateString = dateString.replaceAll("[^\\d-]", "");
+    LocalDate date = null;
     try {
       if (validDateString.length() == 4) {
         // If the string is a year only (yyyy), parse it as a year
         int year = Integer.parseInt(validDateString);
-        return LocalDate.of(year, 1, 1);
+        date = LocalDate.of(year, 1, 1);
       } else if (validDateString.length() == 7) {
         // If the string is a year and month (yyyy-mm), parse it as a year and month
         String[] parts = validDateString.split("-");
         int year = Integer.parseInt(parts[0]);
         int month = Integer.parseInt(parts[1]);
-        return LocalDate.of(year, month, 1);
+        date = LocalDate.of(year, month, 1);
       } else if (validDateString.length() == 10) {
         // If the string is a full date (yyyy-mm-dd), parse it as a full date
         String[] parts = validDateString.split("-");
         int year = Integer.parseInt(parts[0]);
         int month = Integer.parseInt(parts[1]);
         int day = Integer.parseInt(parts[2]);
-        return LocalDate.of(year, month, day);
-      } else
-        throw new IllegalArgumentException("Failed to parse LocalDate");
+        date = LocalDate.of(year, month, day);
+      }
     } catch (NumberFormatException | IndexOutOfBoundsException | DateTimeParseException e) {
       throw new IllegalArgumentException("Invalid date string: " + validDateString, e);
     }
+    return date;
   }
 
 
@@ -117,9 +118,10 @@ public class GoogleBookService {
           book.setQuantity(faker.number().numberBetween(2, 9));
           book.setCategory(fetchCategory);
           boolean exists = bookService.findByTitle(book.getTitle()) != null;
-          if (!exists)
+          if (!exists) {
             bookService.save(book);
-          categoryService.save(fetchCategory);
+            categoryService.save(fetchCategory);
+          }
         }
         startIndex += 40;
       } catch (NullPointerException e) {
@@ -128,7 +130,6 @@ public class GoogleBookService {
       }
     } while (startIndex < totalItems);
   }
-
 
   private void initializeCategories() {
     List<Category> list = new ArrayList<>();
@@ -176,10 +177,13 @@ public class GoogleBookService {
     List<Book> books = bookService.findAll();
     for (Book book : books) {
       List<Review> reviews = initializeReviews(book);
-      book.setReviews(reviews);
-      bookService.save(book);
-      for (Review review : reviews)
-        reviewService.save(review);
+      if (book.getReviews() == null || (book.getReviews().isEmpty())) {
+        book.setReviews(reviews);
+        bookService.save(book);
+        for (Review review : reviews)
+          reviewService.save(review);
+      }
+
     }
   }
 
@@ -193,8 +197,6 @@ public class GoogleBookService {
       roundedPrice = Math.ceil(price) - 0.01;
     return roundedPrice;
   }
-
-
 
   public byte[] getThumbnail(GoogleBook googleBook) {
     byte[] cover = null;
@@ -219,6 +221,21 @@ public class GoogleBookService {
     return cover;
   }
 
+
+
+  public void init() {
+    List<Book> books = bookService.findAll();
+    if (books != null && !books.isEmpty())
+      return;
+
+    initializeCategories();
+    try {
+      processApiData();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    initReviews();
+  }
 
   public void processApiData() throws IOException {
     List<Category> categs = categoryService.findAll(null);

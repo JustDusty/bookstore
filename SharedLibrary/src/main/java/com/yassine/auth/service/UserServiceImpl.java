@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     Optional<User> existingUserEmail = userRepository.findByEmailOrUsername(user.getEmail());
     if (existingUserEmail.isPresent()) {
       userExists = true;
-      message = "Email Already Present!";
+      message = "Email existe déjà!";
     }
     System.out.println("existingUserEmail.isPresent() - " + existingUserEmail.isPresent());
     return Arrays.asList(userExists, message);

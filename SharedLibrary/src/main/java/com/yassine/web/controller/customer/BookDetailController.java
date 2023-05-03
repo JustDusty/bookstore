@@ -6,17 +6,18 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import com.yassine.auth.model.User;
 import com.yassine.auth.service.UserServiceImpl;
 import com.yassine.web.model.Book;
 import com.yassine.web.model.Category;
 import com.yassine.web.model.Review;
+import com.yassine.web.model.pojo.ReviewPojo;
 import com.yassine.web.service.BookService;
 import com.yassine.web.service.CategoryService;
 import com.yassine.web.service.ReviewService;
@@ -45,9 +46,16 @@ public class BookDetailController {
 
   @PostMapping
   public String getBookDetail(@PathVariable(name = "id") Long id,
-      @RequestParam("formrating") Double rating, @RequestParam("message") String message,
-      @RequestParam("email") String email, Model model, Principal principal) {
+      @ModelAttribute("newreview") ReviewPojo reviewPojo, Model model, Principal principal,
+      BindingResult bindingResult) {
 
+    if (bindingResult.hasErrors())
+      return "redirect:/shop/" + id;
+
+    String pojoMessage = reviewPojo.getMessage();
+    String pojoEmail = reviewPojo.getEmail();
+    String pojoName = reviewPojo.getFullName();
+    Double pojoRating = reviewPojo.getRating() != null ? reviewPojo.getRating() : 2.5;
 
     Review review = new Review();
 
@@ -64,11 +72,11 @@ public class BookDetailController {
       review.setEmail(user.getEmail());
 
     } else {
-      review.setEmail(email);
-      review.setFullName("Anonymous");
+      review.setEmail(pojoEmail);
+      review.setFullName(pojoName);
     }
-    review.setRating(rating);
-    review.setMessage(message);
+    review.setRating(pojoRating);
+    review.setMessage(pojoMessage);
 
     reviewService.save(review);
     return "redirect:/shop/" + id;
@@ -76,20 +84,17 @@ public class BookDetailController {
 
   @GetMapping
   public String getDetail(Model model, Principal principal) {
-    String name = "Anonymous";
+    Optional<User> optional = Optional.empty();
     Review review = new Review();
     if (principal != null) {
-      name = principal.getName();
-
-      Optional<User> optional = userService.getByEmailOrUsername(name);
-
+      optional = userService.getByEmailOrUsername(principal.getName());
       if (optional.isPresent()) {
         User user = optional.get();
         review.setEmail(user.getEmail());
         review.setFullName(user.getFullName());
       }
     }
-    model.addAttribute("review", review);
+    model.addAttribute("newreview", review);
 
 
     return "user/detail";

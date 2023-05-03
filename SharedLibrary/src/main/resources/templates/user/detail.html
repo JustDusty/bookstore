@@ -54,7 +54,7 @@ object-fit:none;
                     	<div class="main-rating"></div>
                     	<small class="pt-1" th:text ="'(' +${book.numberOfRatings} + ' Avis)'"></small>
                     </div>
-                    <h3 class="font-weight-semi-bold mb-4" th:text = "${book.price}"></h3>
+                    <h3 class="font-weight-semi-bold mb-4" th:text = "${currency} + ' ' + ${book.price}"></h3>
                     <p class="mb-4" th:text = "${book.description}?:'Pas de description'"></p>
                     <div class="row">
                     	<div class ="col-lg-5">
@@ -62,7 +62,7 @@ object-fit:none;
 		                    <div class="d-flex mb-3">
 		                        <strong class="text-dark mr-3">Genres:</strong>
 		                        <div class="custom-control-inline" th:each="tag: ${book.tags}">
-		                            <label for="size-1" th:text = "${book.category.name} +', ' +${tag}"></label>
+		                            <label for="size-1" th:text = "${book.category !=null ?book.category.name + ', ' : ''} +${tag}"></label>
 		                        </div>
 		                    </div>
 		                    <div class="d-flex mb-3">
@@ -86,7 +86,7 @@ object-fit:none;
 		                    <div class="d-flex mb-3">
 		                        <strong class="text-dark mr-3">Plus d'Informations:</strong>
 		                        <div class="custom-control-inline">
-		                        	<a th:href= "${book.InfoLink}"><i class="fa fa-regular fa-arrow-up-right-from-square"></i></a>
+		                        	<a th:href= "${book.InfoLink}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		                        </div>
 		                    </div>
 		                </div>
@@ -118,7 +118,7 @@ object-fit:none;
 		                    <div class="d-flex mb-3">
 		                        <strong class="text-dark mr-3">Aperçu:</strong>
 		                        <div class="custom-control-inline">
-		                        	<a th:href= "${book.previewLink}"><i class="fa fa-regular fa-arrow-up-right-from-square"></i></a>
+		                        	<a th:href= "${book.previewLink}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		                        </div>
 		                    </div>
 	                    </div>
@@ -141,7 +141,7 @@ object-fit:none;
 	                                </button>
 	                            </div>
 	                        </div>
-	                        <button type = "submit" class="btn btn-primary px-3 btn-add-to-cart" th:attr="data-authenticated=${authenticated}" ><i class="fa fa-shopping-cart mr-1"></i>Ajouter au Panier</button> 
+	                        <button type = "submit" class="btn btn-primary px-3 btn-add-to-cart" th:attr="data-authenticated=${authenticated}" th:disabled="${book.quantity == 0}" ><i class="fa fa-shopping-cart mr-1"></i>Ajouter au Panier</button> 
 	                    </div>
                     </form>
                     <!-- <div class="d-flex pt-2">
@@ -181,7 +181,7 @@ object-fit:none;
                             <div class="row">
                                 <div class="col-md-6">
                                 <div class ="overflow-auto" style="height:600px;">
-                                    <h4 class="mb-4"><span class="font-weight-bold">Avis Pour :</span><span th:text ="${book.title}"></span></h4>
+                                    <h4 class="mb-4"><span class="font-weight-bold">Avis pour </span><span th:text ="${book.title}"></span></h4>
                                     <div class="media mb-4 get-review-ratings" th:each ="review : ${reviews}" th:attr="data-reviewrating=${review.rating}">
                                         <div class="media-body">
                                         	<hr class="my-4">
@@ -195,25 +195,42 @@ object-fit:none;
                                 </div>
                                 <div class="col-md-6 h-100">
                                     <h4 class="mb-4">Laisser un avis</h4>
-                                    <form th:action="@{/shop/{id}(id=${book.id})}" method="post" >
+                                    <form th:action="@{/shop/{id}(id=${book.id})}" th:object="${newreview}" method="post" class="needs-validation" novalidate>
+                                    	<small>Votre adresse e-mail ne sera pas publiée. Les champs obligatoires sont marqués *</small>
+	                                    
 	                                    <div class="d-flex my-3">
 	                                        <p class="mb-0 mr-2">Votre évaluation * :</p>
 	                                        <div class="form-rating"></div>
-	        								<input type="hidden" id="rating" name="formrating" value="4">
+	        								<input type="hidden" id="rating" th:field="*{rating}" value ="2.5" name="formrating">
+	                                    	<div class="invalid-feedback">Veuillez choisir une évaluation.</div>
 	                                    </div>
-	                                    <small>Votre adresse e-mail ne sera pas publiée. Les champs obligatoires sont marqués *</small>
-                                        <div class="form-group">
+                                        <div class="form-group my-3">
                                             <label for="message">Votre Avis *</label>
-                                            <textarea id="message" cols="30" rows="5" name = "message" class="form-control" placeholder= "Avis"></textarea>
+                                            <textarea id="message" cols="30" rows="5" name = "message" class="form-control" th:field="*{message}" placeholder= "Votre avis"  required></textarea>
+                                        	<div class="invalid-feedback">Veuillez entrer votre avis.</div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group my-3">
                                             <label for="name">Votre Nom *</label>
-                                            <input type="text" class="form-control" id="name" th:name ="fullName" th:placeholder="${theUser != null ? theUser.fullName : 'Nom'}">
+                                            <div th:if="${authenticated}">
+                                            	<input type="text" class="form-control" id="name" th:field ="*{fullName}" th:placeholder="${theUser.fullName}">
+                                            </div>
+                                            <div th:unless="${authenticated}">
+                                            	<input type="text" class="form-control" id="name" th:field ="*{fullName}" th:placeholder="'Nom et prénom'" required>
+                                        		<div class="invalid-feedback">Veuillez entrer votre nom.</div>
+                                            </div>
+                                            
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group my-3">
                                             <label for="email">Votre Email *</label>
-                                            <input type="text" class="form-control" id="email" th:name="email"  th:placeholder="${theUser != null ? theUser.email : 'Email'}" >
+                                            <div th:if="${authenticated}">
+                        						<input type="email" class="form-control" id="email" th:field="*{email}"  th:placeholder = "${theUser.email}" />
+                        					</div>
+                        					<div th:unless="${authenticated}">
+                                            	<input type="text" class="form-control" id="email" th:field="*{email}" th:placeholder="'Adresse e-mail'" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                                        		<div class="invalid-feedback">Veuillez entrer une adresse e-mail valide.</div>
+                                        	</div>
                                         </div>
+                                        
                                         <div class="form-group mb-0">
                                             <input type="submit" value="Laisser un avis" class="btn btn-primary px-3">
                                         </div>
@@ -245,9 +262,9 @@ object-fit:none;
 	                            </div>
 	                        </div>
 	                        <div class="text-center py-4">
-	                            <a class="h6 text-decoration-none text-truncate" href="" th:text="${similarBook.title}"></a>
+	                            <a class="h6 text-decoration-none text-truncate" th:href="@{/shop/{id}(id=${similarBook.id})}" th:text="${similarBook.title}"></a>
 	                            <div class="d-flex align-items-center justify-content-center mt-2">
-	                                <h5 th:text="${similarBook.price}"></h5>
+	                                <h5 th:text="${currency} + ' ' + ${similarBook.price}"></h5>
 	                            </div>
 	                            <div class="d-flex align-items-center justify-content-center mb-1">
 		                       		<div class="sim-rating"></div>
@@ -291,16 +308,40 @@ object-fit:none;
 	    readOnly:true,
 
 	});
+
 	$(".form-rating").starRating({
 	    disableAfterRate:false,
 	    starSize: 20,
-		initialRating:4,
-		useFullStars:true,
+	    initialRating: 2.5,
 		ratedColors:['#ffa700','#ffa700','#ffa700','#ffa700','#ffa700'],
 	    callback: function(currentRating, $el){
 			$("#rating").val(currentRating);
 	    }
 	});
+	// Get the input field and the invalid feedback div
+
+
+	</script>
+	<script>
+	(function () {
+	    'use strict'
+
+	    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+	    var forms = document.querySelectorAll('.needs-validation')
+
+	    // Loop over them and prevent submission
+	    Array.prototype.slice.call(forms)
+	      .forEach(function (form) {
+	        form.addEventListener('submit', function (event) {
+	          if (!form.checkValidity()) {
+	            event.preventDefault()
+	            event.stopPropagation()
+	          }
+
+	          form.classList.add('was-validated')
+	        }, false)
+	      })
+	  })()
 	</script>
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>

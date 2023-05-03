@@ -51,12 +51,11 @@ public class WebSecurityConfig {
     http.authenticationProvider(authenticationProvider());
     http.authorizeHttpRequests()
         .requestMatchers("/", "/login", "/register/**", "/oauth2/**", "/forgotPassword/**",
-            "/index/**", "/shop/**", "/contact", "/actuator/**")
-        .permitAll().requestMatchers("/cart/**", "checkout/**").hasAnyAuthority("USER")
-        .requestMatchers("/admin/**", "/actuator/**", "/cart/**", "checkout/**")
-        .hasAnyAuthority("ADMIN").requestMatchers("/**").hasAnyAuthority("USER", "ADMIN")
-        .anyRequest().authenticated().and().oauth2Login(login -> login.loginPage("/login")
-            .defaultSuccessUrl("/").userInfoEndpoint().userService(oauthUserService));
+            "/index/**", "/shop/**", "/contact/**", "/actuator/**")
+        .permitAll().requestMatchers("/actuator/**", "/admin/**").hasAnyAuthority("ADMIN")
+        .requestMatchers("/**").hasAnyAuthority("USER", "ADMIN").anyRequest().authenticated().and()
+        .oauth2Login(login -> login.loginPage("/login").defaultSuccessUrl("/").userInfoEndpoint()
+            .userService(oauthUserService));
     http.formLogin(login -> login.loginPage("/login").failureUrl("/login?error=true")
         .successHandler(loginSuccessHandler).usernameParameter("email")
         .passwordParameter("password"));

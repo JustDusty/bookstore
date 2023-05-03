@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.yassine.auth.model.Role;
 import com.yassine.auth.model.User;
@@ -14,7 +13,6 @@ import com.yassine.auth.repository.UserRepository;
 
 
 @Configuration
-@PropertySource("classpath:auth.properties")
 public class AdminConfig {
   @Autowired
   BCryptPasswordEncoder bCryptPasswordEncoder;

@@ -12,6 +12,7 @@ import com.yassine.web.model.Category;
 import com.yassine.web.model.ShoppingCart;
 import com.yassine.web.service.CategoryService;
 import com.yassine.web.service.ShoppingCartService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
@@ -50,13 +51,26 @@ public class GlobalControllerAdvice {
     return categoryService.findRandomTwelveCategories();
   }
 
+
+  @ModelAttribute("currency")
+  public String getCurrency() {
+    return "MAD";
+  }
+
+  @ModelAttribute("requestURI")
+  public String getRequest(HttpServletRequest request) {
+    return request.getRequestURI();
+  }
+
   @ModelAttribute("theUser")
   public User getUser(Principal principal) {
+    User user = null;
     if (isAuthenticated(principal)) {
-      User user = userService.getByEmailOrUsername(principal.getName()).get();
-      return user;
+      Optional<User> optionalUser = userService.getByEmailOrUsername(principal.getName());
+      if (optionalUser.isPresent())
+        user = optionalUser.get();
     }
-    return null;
+    return user;
   }
 
   @ModelAttribute("authenticated")

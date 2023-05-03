@@ -34,10 +34,14 @@ public class ShopController {
       @RequestParam(name = "minPrice", required = false) Double minPrice,
       @RequestParam(name = "maxPrice", required = false) Double maxPrice,
       @RequestParam(name = "author", required = false) String author,
-      @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "9") int size,
+      @RequestParam(defaultValue = "0", name = "page") int page,
+      @RequestParam(defaultValue = "9", name = "size") int size,
       @RequestParam(name = "currentSize", required = false) Integer currentSize) {
     Page<Book> bookPage;
-
+    String currAuthor = null;
+    Category currCategory = null;
+    Double currMinPrice = null;
+    Double currMaxPrice = null;
     if (currentSize != null)
       size = currentSize;
     if (keyword != null)
@@ -46,21 +50,29 @@ public class ShopController {
     else if (author != null && categoryId != null) {
       bookPage = bookService.getAllSpecifications(author, categoryId, minPrice, maxPrice,
           PageRequest.of(page, size));
-      model.addAttribute("currAuthor", author);
-      model.addAttribute("currCategory", categoryService.findById(categoryId));
+      currAuthor = author;
+      currCategory = categoryService.findById(categoryId);
+
     } else if (author == null && categoryId != null) {
       Category category = categoryService.findById(categoryId);
       bookPage = bookService.findByCategoryAndPriceBetween(category, minPrice, maxPrice,
           PageRequest.of(page, size));
-      model.addAttribute("currCategory", category);
+      currAuthor = author;
+      currCategory = category;
     } else if (author != null) {
       bookPage = bookService.findByAuthorAndPriceBetween(author, minPrice, maxPrice,
           PageRequest.of(page, size));
-      model.addAttribute("currAuthor", author);
+      currAuthor = author;
+    } else if (minPrice != null) {
+      currMinPrice = minPrice;
+      currMaxPrice = maxPrice;
+      bookPage = bookService.findByPriceBetween(minPrice, maxPrice, PageRequest.of(page, size));
     } else
       bookPage = bookService.findAll(PageRequest.of(page, size));
-    model.addAttribute("currMinPrice", minPrice);
-    model.addAttribute("currMaxPrice", maxPrice);
+    model.addAttribute("currAuthor", currAuthor);
+    model.addAttribute("currCategory", currCategory);
+    model.addAttribute("currMinPrice", currMinPrice);
+    model.addAttribute("currMaxPrice", currMaxPrice);
     model.addAttribute("keyword", keyword);
     model.addAttribute("allbooks", bookPage.getContent());
     model.addAttribute("currentSize", size);

@@ -125,14 +125,15 @@ td .d-flex {
 								class="line"></span>
 						</div>
 					</div>
+
 					<div class="float-right">
 
 						<div class="dropdown dib">
-							<div class="header-icon" data-toggle="dropdown">
+							<a href ="#" class="header-icon" data-toggle="dropdown">
 								<span class="user-avatar"><span sec:authentication="name"></span>
-									<i class="ti-angle-down f-s-10"></i> </span>
+									<i class="ti-angle-down f-s-10"></i> </span></a>
 								<div
-									class="drop-down dropdown-profile dropdown-menu dropdown-menu-right">
+									class=" dropdown-profile dropdown-menu dropdown-menu-right">
 									<div class="dropdown-content-heading"></div>
 									<div class="dropdown-content-body">
 										<ul>
@@ -145,13 +146,13 @@ td .d-flex {
 										</ul>
 									</div>
 								</div>
-							</div>
 						</div>
+					</div>
+
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
 
 	<div class="content-wrap">
@@ -224,7 +225,7 @@ td .d-flex {
 														th:text="${#temporals.format(book.publicationDate, 'd MMMM yyyy')}?:'Date de Publication Inconnue'"></td>
 
 													<td th:text="${book.numberOfPages}?:'Nombre de pages Inconnu'"></td>
-													<td th:text="${book.price}"></td>
+													<td th:text="${currency} + ' ' +${book.price}"></td>
 
 												</tr>
 											<tfoot>

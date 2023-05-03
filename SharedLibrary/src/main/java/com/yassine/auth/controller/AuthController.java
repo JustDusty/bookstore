@@ -65,8 +65,10 @@ public class AuthController {
   @PostMapping({"/register"})
   public String registerUser(Model model, @Valid User user, HttpServletRequest request,
       BindingResult bindingResult) {
+
+
     if (bindingResult.hasErrors()) {
-      model.addAttribute("successMessage", "Inscription echouee");
+      model.addAttribute("successMessage", "Inscription échouée");
       model.addAttribute("bindingResult", bindingResult);
       return "auth/register";
     }
@@ -77,7 +79,7 @@ public class AuthController {
       return "auth/register";
     }
     userService.saveUser(user);
-    model.addAttribute("successMessage", "Inscription avec succes!");
+    model.addAttribute("successMessage", "Inscription effectuée avec succès!");
 
     return "auth/login";
   }

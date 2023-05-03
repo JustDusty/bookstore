@@ -55,8 +55,6 @@ public class CategoryService {
     Category category = null;
     if (optional.isPresent())
       category = optional.get();
-    else
-      throw new RuntimeException("Category not found for name :: " + id);
     return category;
   }
 

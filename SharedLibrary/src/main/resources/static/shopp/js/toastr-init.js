@@ -22,7 +22,7 @@
 	    var isAuthenticated = $addToCartButton.attr('data-authenticated');
 	    console.log(isAuthenticated);
 	    if (isAuthenticated === 'false') {
-	        toastr.warning('You must be logged in access or add items to the cart.');
+	        toastr.warning('Vous devez être connectés pour accéder à votre panier.');
 	        return false;
 	    }
 	});

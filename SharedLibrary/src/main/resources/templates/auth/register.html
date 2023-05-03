@@ -1,51 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
 <body>
-<div th:include = "@{/user/fragments/topfragment}"></div>
-<section class="vh-100 bgc">
+<div th:include = "user/fragments/topfragment"></div>
+<section class="bgc">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="card shadow-2-strong card-shad" >
-          <div class="card-body p-5 text-center">
-			<form th:action="@{/register}" th:object="${user}" method="post">
-            <h3 class="mb-5" style="color: #4d545a;">Inscription</h3>
-			<hr class="my-4">
-            <div class="form-outline mb-4">
-              <input th:placeholder="'Prénom'" th:field="*{firstName}" type="text" class="form-control form-control-lg" />
-            </div>
-
-            <div class="form-outline mb-4">
-              <input th:placeholder="'Nom'" th:field="*{lastName}" type="text"  class="form-control form-control-lg" />
-            </div>
-            
-            <div class="form-outline mb-4">
-              <input th:placeholder="'Nom Utilisateur'"  th:field="*{username}"type="text"   class="form-control form-control-lg" />
-            </div>
-            <div class="form-outline mb-4">
-              <input th:placeholder="'Email'"  th:field="*{email}" type="email"   class="form-control form-control-lg" />
-            </div>
-
-            <div class="form-outline mb-4">
-              <input th:placeholder="'Mot de Passe'" th:field="*{password}" type="password" class="form-control form-control-lg" />
-            </div>
-            
-            <div th:if="${bindingResult!=null && bindingResult.getAllErrors()!=null}">
-    			<div class="alert alert-danger" role="alert">
-        			<ul th:each="data : ${bindingResult.getAllErrors()}">
-        			<li th:text="${data.getObjectName() + ' :: ' + data.getDefaultMessage()}"></li>
-    				  </ul>
+          <div class="card-body p-5">
+			<form th:action="@{/register}" th:object="${user}" method="post" class="needs-validation" novalidate>
+	            <h3 class="mb-5 text-center" style="color: #4d545a;">Inscrivez-vous</h3>
+	            <div th:if="${successMessage}">
+            	<div class="alert alert-danger" role="alert">
+        			<span th:utext="${successMessage}"></span>
     			</div>
-			</div>
-            <!-- Checkbox -->
-	 		<div class="form-check d-flex justify-content-center text-center mb-4">
-	           <a th:href="@{/login}">Vous avez déjà un compte ?</a>
-	        </div>
-           
-
-            <button class="btn btn-primary btn-lg btn-block text-shad" type="submit">S'inscrire</button>
-
-            <hr class="my-4">
+				</div>	
+				<hr class="my-4">
+	            <div class="form-outline mb-4 position-relative" style="margin-bottom: 1.97rem !important;">
+	              		<input th:placeholder="'Prénom'" th:field="*{firstName}" id="firstname" name ="firstname" type="text" class="form-control form-control-lg" required />
+						<div class="invalid-feedback">Prénom invalide. Veuillez entrer votre prénom.</div>
+	            </div>
+	            <div class="form-outline mb-4 position-relative" style="margin-bottom: 1.97rem !important;">
+	              	<input th:placeholder="'Nom'" th:field="*{lastName}" type="text" id="lastname" name="lastname" class="form-control form-control-lg" required/>
+					<div class="invalid-feedback">Nom invalide. Veuillez entrer votre nom.</div>
+	            </div>
+	            
+	            <div class="form-outline mb-4 position-relative" style="margin-bottom: 1.97rem !important;"> 
+	              	<input th:placeholder="'Nom d\'utilisateur'" id="username" name ="username" th:field="*{username}"type="text" class="form-control form-control-lg" pattern=".{3,}" required/>
+	            	<div class="invalid-feedback">Adresse e-mail invalide. Veuillez entrer une adresse e-mail valide.</div>
+	            </div>
+	            
+	            <div class="form-outline mb-4 position-relative" style="margin-bottom: 1.97rem !important;">
+	              	<input th:placeholder="'Email'"  id="email" name="email" th:field="*{email}" type="email" class="form-control form-control-lg" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
+	           		<div class="invalid-feedback">Nom d'utilisateur invalide. Veuillez entrer un nom d'utilisateur contenant au moins 3 caractères.</div>
+	            </div>
+	
+	            <div class="form-outline mb-4 position-relative" style="margin-bottom: 1.97rem !important;">
+	              	<input th:placeholder="'Mot de passe'" id="password" name="password" th:field="*{password}" type="password" class="form-control form-control-lg" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required/>
+	            	<div class="invalid-feedback">Le mot de passe doit contenir au moins 8 caractères, incluant des minuscules, des majuscules, et au moins un chiffre.</div>
+	            </div>
+	            
+	            <div th:if="${bindingResult!=null && bindingResult.getAllErrors()!=null}">
+	    			<div class="alert alert-danger" role="alert">
+	        			<ul th:each="data : ${bindingResult.getAllErrors()}">
+	        			<li th:text="${data.getObjectName() + ' :: ' + data.getDefaultMessage()}"></li>
+	    				  </ul>
+	    			</div>
+				</div>
+				
+				<div class=" position-relative my-4">
+		           <a th:href="@{/login}">Vous avez déjà un compte ?</a>
+		        </div>
+	            <button class="btn btn-primary btn-lg btn-block text-shad" type="submit">S'inscrire</button>
+				
+	            <hr class="my-4">
             </form>
 			
            
@@ -57,6 +68,27 @@
   </div>
 </section>
 
-<div th:include = "@{/user/fragments/bottomfragment}"></div>
+<div th:include = "user/fragments/bottomfragment"></div>
+<script>
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
 </body>
 </html>

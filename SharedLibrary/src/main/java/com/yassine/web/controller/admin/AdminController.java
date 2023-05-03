@@ -15,7 +15,7 @@ public class AdminController {
 
   @GetMapping({"/dashboard"})
   public String adminCategory() {
-    return "redirect:/admin/category/";
+    return "redirect:/admin/index";
   }
 
 

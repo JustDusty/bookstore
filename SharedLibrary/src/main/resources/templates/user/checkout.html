@@ -23,43 +23,48 @@
     	<!-- Address Start -->
         <div class="row px-xl-5">
             <div class="col-lg-8">
-                <form th:action="@{/checkout/save-address}" method ="post" th:object="${addressForm}">
+                <form th:action="@{/checkout/save-address}" method ="post" th:object="${addressForm}" class="needs-validation" novalidate>
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Adresse de Facturation</span></h5>
                 <div class="bg-light p-30 mb-5">
                     <div class="row">
                         <div class="col-md-6 form-group">
                             <label>Prénom</label>
-                            <input class="form-control" type="text" th:field="*{firstName}" th:placeholder="${theUser.firstName}?:'Prénom'">
+                            <input class="form-control" name="prenom" type="text" th:field="*{firstName}" th:placeholder="${theUser.firstName}?:'Prénom'" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Nom</label>
-                            <input class="form-control" type="text" th:field="*{lastName}" th:placeholder="${theUser.lastName}?:'Nom'">
+                            <input class="form-control" name="nom" type="text" th:field="*{lastName}" th:placeholder="${theUser.lastName}?:'Nom'" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>E-mail</label>
-                            <input class="form-control" type="text" th:field="*{email}" th:placeholder="${theUser.email}?:'Email'">
+                            <input class="form-control" name="email" type="email" th:field="*{email}" th:placeholder="${theUser.email}?:'Email'" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Num Mobile</label>
-                            <input class="form-control" type="text" th:field="*{phoneNumber}" th:placeholder="${theUser.phoneNumber}?:'Num Mobile'">
+                            <input class="form-control" name="mobile" type="tel" th:field="*{phoneNumber}" th:placeholder="${theUser.phoneNumber}?:'Num Mobile'" pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]{8,}$"  required>
+                        	<div class="invalid-feedback">Veuillez entrer un numéro de téléphone valide.</div>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Adresse Ligne 1</label>
-                            <input class="form-control" type="text"  th:field="*{addressLine1}" th:placeholder="${theUser.addressLine1}?:'Adresse Ligne 1'">
+                            <input class="form-control" name="address1" type="text"  th:field="*{addressLine1}" th:placeholder="${theUser.addressLine1}?:'Adresse Ligne 1'" maxlength = 25 required>
+                        	<div class="invalid-feedback">Veuillez entrer une adresse valide.</div>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Adresse Ligne 2</label>
-                            <input class="form-control" type="text"  th:field="*{addressLine2}" th:placeholder="${theUser.addressLine2}?:'Adresse Ligne 2'">
+                            <input class="form-control" name="address2" type="text"  th:field="*{addressLine2}" th:placeholder="${theUser.addressLine2}?:'Adresse Ligne 2'" maxlength = 25 required> 
+                        	<div class="invalid-feedback">Veuillez entrer une adresse valide.</div>
                         </div>
                         
                         <div class="col-md-6 form-group">
                         	<label>Ville</label>
-                        	<input class="form-control" type="text" th:field="*{city}" th:placeholder="${theUser.city}?:'Ville'">
+                        	<input class="form-control" name="city" type="text" th:field="*{city}" th:placeholder="${theUser.city}?:'Ville'" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]+" required>
+	                    	<div class="invalid-feedback">Veuillez entrer une ville valide.</div>
 	                    </div>
 	                   
 	                    <div class="col-md-6 form-group">
 	                        <label>Code Postal</label>
-	                        <input class="form-control" type="text" th:field="*{zipCode}" th:placeholder="${theUser.zipCode}?:'Code Postal'">
+	                        <input class="form-control" name="zip" type="text" th:field="*{zipCode}" th:placeholder="${theUser.zipCode}?:'Code Postal'" pattern="[0-9]{5}" maxlength="5" required>
+	                    	<div class="invalid-feedback">Le code postal doit contenir 5 chiffres.</div>
 	                    </div>
 	                    
 	                    <div class="col-md-12">
@@ -83,7 +88,7 @@
                         <h6 class="mb-3">Articles</h6>
                         <div class="d-flex justify-content-between" th:each ="cartItem: ${allCartItems}">
                             <p th:text="${cartItem.book.title}"></p>
-                            <p th:text="${cartItem.totalPrice}"></p>
+                            <p th:text="${currency} + ' ' + ${#numbers.formatDecimal(cartItem.totalPrice, 0, 2)}"></p>
                         </div>
                     </div>
                     <!-- <div class="border-bottom pt-3 pb-2">
@@ -99,7 +104,8 @@
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5 th:text="${shoppingCart.totalPrice}"></h5>
+                            <h5 th:text="${currency} + ' ' + ${shoppingCart.totalPrice == 0 ? '0.00' : #numbers.formatDecimal(shoppingCart.totalPrice, 0, 2)}"></h5>
+
                         </div>
                     </div>
                 </div>
@@ -153,7 +159,27 @@
 	
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
+	<script>
+	(function () {
+	  'use strict'
+	
+	  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+	  var forms = document.querySelectorAll('.needs-validation')
+	
+	  // Loop over them and prevent submission
+	  Array.prototype.slice.call(forms)
+	    .forEach(function (form) {
+	      form.addEventListener('submit', function (event) {
+	        if (!form.checkValidity()) {
+	          event.preventDefault()
+	          event.stopPropagation()
+	        }
+	
+	        form.classList.add('was-validated')
+	      }, false)
+	    })
+	})()
+	</script>
 	<script>
 	function showConfirmation() {
 	    $('#confirmModal').modal('show');
@@ -173,6 +199,7 @@
 	  }
 	
 	</script>
+
 </body>
 
 </html>
