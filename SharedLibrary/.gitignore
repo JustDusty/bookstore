@@ -3,7 +3,10 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+*.properties
+src/main/resources/*.properties
+src/main/resources/META-INF/
+src/main/resources/META-INF/
 ### STS ###
 .apt_generated
 .classpath
