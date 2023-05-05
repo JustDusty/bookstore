@@ -34,7 +34,7 @@
 	            </div>
 	            
 	            <div class="form-outline mb-4 position-relative" style="margin-bottom: 1.97rem !important;">
-	              	<input th:placeholder="'Email'"  id="email" name="email" th:field="*{email}" type="email" class="form-control form-control-lg" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
+	              	<input th:placeholder="'Email'"id="email" name="email" th:field="*{email}"type="email"class="form-control form-control-lg"pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required/>
 	           		<div class="invalid-feedback">Adresse e-mail invalide. Veuillez entrer une adresse e-mail valide.</div>
 	            </div>
 	
