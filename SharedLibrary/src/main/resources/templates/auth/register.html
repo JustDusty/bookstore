@@ -30,12 +30,12 @@
 	            
 	            <div class="form-outline mb-4 position-relative" style="margin-bottom: 1.97rem !important;"> 
 	              	<input th:placeholder="'Nom d\'utilisateur'" id="username" name ="username" th:field="*{username}"type="text" class="form-control form-control-lg" pattern=".{3,}" required/>
-	            	<div class="invalid-feedback">Adresse e-mail invalide. Veuillez entrer une adresse e-mail valide.</div>
+	            	<div class="invalid-feedback">Nom d'utilisateur invalide. Veuillez entrer un nom d'utilisateur contenant au moins 3 caractères.</div>
 	            </div>
 	            
 	            <div class="form-outline mb-4 position-relative" style="margin-bottom: 1.97rem !important;">
 	              	<input th:placeholder="'Email'"  id="email" name="email" th:field="*{email}" type="email" class="form-control form-control-lg" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
-	           		<div class="invalid-feedback">Nom d'utilisateur invalide. Veuillez entrer un nom d'utilisateur contenant au moins 3 caractères.</div>
+	           		<div class="invalid-feedback">Adresse e-mail invalide. Veuillez entrer une adresse e-mail valide.</div>
 	            </div>
 	
 	            <div class="form-outline mb-4 position-relative" style="margin-bottom: 1.97rem !important;">

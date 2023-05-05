@@ -203,6 +203,7 @@
 					              <tr>
 					                <th>Date</th>
 					                <th>URI</th>
+					                <th>Adresse IP</th>
 					                <th>méthode</th>
 					                <th>Statut</th>
 					                <th>Durée</th>
@@ -211,7 +212,8 @@
 					            <tbody>
 					              <tr th:each="exchange : ${httpTraces.exchanges}">
 					                <td th:text="${exchange.timestamp}"></td>
-					                <td th:text="${exchange.request.uri}"></td>
+					                <td th:text="${exchange.request.uri.startsWith('http://') ? exchange.request.uri.replaceFirst('http://', exchange.request.headers['x-forwarded-proto'][0] + '://') : exchange.request.uri}"></td>
+					                <td th:text="${#strings.listSplit(exchange.request.headers['x-forwarded-for'][0], ',')[0]}"></td>
 					                <td th:text="${exchange.request.method}"></td>
 									<td>
 									  <button th:text="${exchange.response.status}"

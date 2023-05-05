@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,18 @@ public class DashboardController {
     HttpTraces trace = mapper.readValue(jsonResponse, HttpTraces.class);
     filterHttpTrace(trace);
 
+    for (Exchange exchange : trace.getExchanges()) {
+      Map<String, List<String>> headers = exchange.getRequest().getHeaders();
+      for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+        String headerName = entry.getKey();
+        List<String> headerValues = entry.getValue();
+
+        // print the header name and values
+        System.out.println(headerName + ": " + String.join(",", headerValues));
+
+      }
+    }
+
     return trace;
   }
 
@@ -37,7 +50,7 @@ public class DashboardController {
   private void formatExchangeTimes(List<Exchange> exchanges) {
     for (Exchange exchange : exchanges) {
       ZonedDateTime timestamp = ZonedDateTime.parse(exchange.getTimestamp());
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm:ss");
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy - HH:mm:ss");
       String formattedTimestamp = timestamp.format(formatter);
       exchange.setTimestamp(formattedTimestamp);
 
