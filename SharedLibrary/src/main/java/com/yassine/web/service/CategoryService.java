@@ -51,6 +51,8 @@ public class CategoryService {
   }
 
   public Category findById(Long id) {
+    if (id == null)
+      return null;
     Optional<Category> optional = categoryRepository.findById(id);
     Category category = null;
     if (optional.isPresent())

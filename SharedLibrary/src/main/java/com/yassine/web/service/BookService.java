@@ -225,6 +225,8 @@ public class BookService {
 
   public Page<Book> getAllSpecifications(String author, Long categoryId, Double minPrice,
       Double maxPrice, Pageable pageable) {
+    if (author == null && categoryId == null && minPrice == null && maxPrice == null)
+      return bookRepository.findAll(pageable);
     Specification<Book> spec = Specification.where(BookSpecifications.hasCategory(categoryId))
         .and(BookSpecifications.hasAuthor(author))
         .and(BookSpecifications.priceGreaterThanOrEqual(minPrice))

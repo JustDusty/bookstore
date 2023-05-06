@@ -31,8 +31,8 @@ public class ShopController {
   @GetMapping("/shop")
   public String filterBooks(Model model, @Param("keyword") String keyword,
       @RequestParam(name = "category", required = false) Long categoryId,
-      @RequestParam(name = "minPrice", required = false) Double minPrice,
-      @RequestParam(name = "maxPrice", required = false) Double maxPrice,
+      @RequestParam(name = "minPrice", defaultValue = "0", required = false) Double minPrice,
+      @RequestParam(name = "maxPrice", defaultValue = "200", required = false) Double maxPrice,
       @RequestParam(name = "author", required = false) String author,
       @RequestParam(defaultValue = "0", name = "page") int page,
       @RequestParam(defaultValue = "9", name = "size") int size,
@@ -40,8 +40,8 @@ public class ShopController {
     Page<Book> bookPage;
     String currAuthor = null;
     Category currCategory = null;
-    Double currMinPrice = null;
-    Double currMaxPrice = null;
+    Double currMinPrice = minPrice;
+    Double currMaxPrice = maxPrice;
     if (currentSize != null)
       size = currentSize;
     if (keyword != null)
@@ -63,10 +63,6 @@ public class ShopController {
       bookPage = bookService.findByAuthorAndPriceBetween(author, minPrice, maxPrice,
           PageRequest.of(page, size));
       currAuthor = author;
-    } else if (minPrice != null) {
-      currMinPrice = minPrice;
-      currMaxPrice = maxPrice;
-      bookPage = bookService.findByPriceBetween(minPrice, maxPrice, PageRequest.of(page, size));
     } else
       bookPage = bookService.findAll(PageRequest.of(page, size));
     model.addAttribute("currAuthor", currAuthor);
