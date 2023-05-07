@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.yassine.web.model.Order;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class EmailService {
@@ -16,14 +20,15 @@ public class EmailService {
   @Value("${spring.mail.username}")
   private String senderEmail;
 
-  @Async
-  public void sendContactEmail(String email, String subject, String message) {
-    SimpleMailMessage toSend = new SimpleMailMessage();
-    toSend.setFrom(email);
-    toSend.setTo(senderEmail);
+  public void sendContactEmail(String email, String subject, String message)
+      throws MessagingException {
+    MimeMessage mimeMessage = mailSender.createMimeMessage();
+    MimeMessageHelper toSend = new MimeMessageHelper(mimeMessage, "UTF-8");
+    toSend.setFrom(new InternetAddress(email));
+    toSend.setTo(new InternetAddress[] {new InternetAddress(senderEmail)});
     toSend.setSubject(subject);
     toSend.setText(message);
-    mailSender.send(toSend);
+    mailSender.send(mimeMessage);
 
   }
 

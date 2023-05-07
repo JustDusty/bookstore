@@ -28,6 +28,27 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
 <style>
+.form-select-override{
+  --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  display: block;
+
+  padding: .375rem 2.25rem .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+
+  background-color: var(--bs-body-bg);
+  background-image: var(--bs-form-select-bg-img),var(--bs-form-select-bg-icon,none);
+  background-repeat: no-repeat;
+  background-position: right .75rem center;
+  background-size: 16px 12px;
+
+  border-radius: .375rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
 .book-cover{
 	display: block;
   	max-width:230px;
@@ -76,7 +97,7 @@
                                 <ul>	
                                 	<li><a th:href="@{/admin/order}">Afficher Commandes</a></li>
                                 </ul>
-                            </li>
+                            </li>                            
                          
                         </ul>
                     </li>
@@ -150,7 +171,7 @@
                             <div class="page-title">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">Tableau de Bord</a></li>
-                                    <li class="breadcrumb-item active">Afficher Genres</li>
+                                    <li class="breadcrumb-item active">Commandes</li>
                                 </ol>
                             </div>
                         </div>
@@ -169,40 +190,38 @@
                                     <div class="table-responsive" >
                                         <table id="row-select" class="display table table-bordered table-hover">
                                             <thead>             	
-                                                <tr >                  
+                                                <tr>                  
                                                     <th>Actions</th>
-                                                    <th>Image</th>
-                                                    <th>Nom</th>
-                                                    <th>Nombre de livres</th>
-                                                    <th>Description</th>
-                                                    <th>Date Création</th>
-                                                    <th>Date Mise à jour</th>
-                                                    
-
+                                                    <th>Client</th>
+                                                    <th>Date de commande</th>
+                                                    <th>Date de livraison</th>
+                                                    <th>Prix total</th>
+                                                    <th>Méthode de paiement</th>
+                                                    <th>Statut</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <tr th:each="category : ${categories}" style="width:100%;">
+                                            <tr th:each="order : ${orders}" style="width:100%;">
                                             	<td> 
 	                    							<div class="d-flex">
 	                    							
 	                    							
 	                        						<button class="btn btn-primary edit-btn mr-2" data-toggle="modal" data-target="#edit-modal" 
-	                        							th:attr="data-category-id=${category.id}, 
-													               data-category-name=${category.name}, 
-													               data-category-description=${category.description},
-													               data-category-img = ${category.imageUrl}">
+	                        							th:attr="data-order-delivery=${order.deliveryDate}, 
+													            data-order-status=${order.orderStatus},
+													            data-order-id=${order.id},
+																data-order-user=${order.user.email}">
 											        Modifier
 											    	</button>
-											    	<a th:href="@{/admin/category/delete/{id}(id=${category.id})}" class="btn btn-danger btn-block">Supprimer</a>
+											    	<a th:href="@{/admin/order/delete/{id}(id=${order.id})}" class="btn btn-danger btn-block">Supprimer</a>
 											    	</div>
 											    	<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-modal-label"
 																		     aria-hidden="true">
 													    <div class="modal-dialog" role="document">
 													        <div class="modal-content">
-													            <form id="edit-form" method="post" th:action="@{/admin/category/update/{id}(id=${category.id})}" enctype="multipart/form-data">
+													            <form id="edit-form" method="post" th:action="@{/admin/order/update/{id}(id=${order.id})}">
 													                <div class="modal-header">
-													                    <h5 class="modal-title" id="edit-modal-label">Modifier Genre</h5>
+													                    <h5 class="modal-title" id="edit-modal-label">Mettre à jour commande</h5>
 													                    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
 													                        <span aria-hidden="true">&times;</span>
 													                    </button>
@@ -210,31 +229,32 @@
 													                <div class="modal-body">
 													                
 													                   <div class="form-group row">
-													                        <label for="edit-category-id" class="col-sm-2 col-form-label">ID:</label>
+													                        <label for="edit-order-id" class="col-sm-2 col-form-label">ID:</label>
 													                        <div class="col-sm-10">
-													                            <input type="text" id="edit-category-id" name="id" class="form-control" readonly>
+													                            <input type="text" id="edit-order-id" name="id" class="form-control" readonly>
 													                        </div>
 													                    </div>
 													                    <div class="form-group row">
-													                        <label for="edit-category-name" class="col-sm-2 col-form-label">Nom:</label>
+													                        <label for="edit-order-user" class="col-sm-2 col-form-label">Client:</label>
 													                        <div class="col-sm-10">
-													                            <input type="text" id="edit-category-name" name="name" class="form-control" required>
+													                            <input type="text" id="edit-order-user" name="clientEmail" class="form-control" readonly>
+													                        </div>
+													                    </div>
+													                   <div class="form-group row">
+													                        <label for="edit-order-delivery" class="col-sm-2 col-form-label">Date de livraison:</label>
+													                        <div class="col-sm-10">
+													                            <input type="date" id="edit-order-delivery" name="delivery" class="form-control" required>
 													                        </div>
 													                    </div>
 													                    <div class="form-group row">
-													                        <label for="edit-category-description" class="col-sm-2 col-form-label">Description:</label>
-													                        <div class="col-sm-10">
-													                            <textarea id="edit-category-description" name="description" class="form-control" required></textarea>
-													                        </div>
-													                    </div>
-													                    <div class="form-group-row row">
-																		    <label for="edit-category-image" class="col-sm-2 col-form-label">Image: </label>
-																		    <div class="col-sm-5">
-																		    	<img id="category-image">
-																		    </div>
-																		    <div class="col-sm-5">
-																		    	<input type="file" class="form-control-file" id="edit-category-image" name="image">
-																		    </div>
+														                    <label for="edit-order-status" class="col-sm-2 col-form-label" >Statut:</label>
+														                    <div class="col-sm-10">
+																				<select name="status" class="form-select form-select-override form-control" id="edit-order-status" >
+																					<th:block th:each="status : ${listStatus}">
+																						<option th:value="${status}" th:text="${status}" th:selected="${order.orderStatus == status}"></option>
+																					</th:block>
+																				</select>
+																			</div>
 																		</div>
 													                </div>
 													                <div class="modal-footer">
@@ -248,27 +268,18 @@
 						    	
 	                        						
                     							</td>
-                    						
-                    							
-                                            	<td><img width="400" height="400" class = "book-cover" alt="Category Cover" th:if="${category.coverImage != null}" th:src="${category.imageUrl}" /></td>
-                                            	
-                    							<td th:text="${category.name}"></td>
-                    							<td th:text="${category.numberOfBooks}"></td>
-                    							<td th:text="${category.description}"></td>
-                    							<td th:text="${#temporals.format(category.createdAt, 'd MMMM yyyy HH:mm:ss')}"></td>
-                    							<td th:text="${#temporals.format(category.updatedAt, 'd MMMM yyyy HH:mm:ss')}"></td>
+                    							<td th:text="${order.user.email}"></td>
+												<td th:text="${#strings.toUpperCase(#temporals.format(order.orderDate, 'dd MMMM yyyy', new java.util.Locale('fr'))) }"></td>
+												<td th:text="${#strings.toUpperCase(#temporals.format(order.deliveryDate, 'dd MMMM yyyy', new java.util.Locale('fr'))) }"></td>
+                    							<td th:text="${currency} + ' ' + 	${order.totalPrice}"></td>
+                    							<td th:text="${order.paymentMethod}"></td>
+                    							<td th:text="${order.orderStatus}"></td>
                     							
                								</tr>
                												 
                                             <tfoot>                               
                                             	<tr>
-                                            		<th>Name</th>
-                                            		<th>Name</th>
-                                            		<th>Name</th>
-                                            		<th>Name</th>
-                                            		<th>Name</th>
-                                            		<th>Name</th>
-                                            		<th>Name</th>
+
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -296,10 +307,7 @@
     <!-- sidebar -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-		crossorigin="anonymous"></script>
+	<script th:src="@{/js/lib/bootstrap.min.js}"></script>
 	<script th:src="@{/js/lib/data-table/datatables.min.js}"></script>
     <script th:src="@{/js/lib/data-table/dataTables.buttons.min.js}"></script>
     <script th:src="@{/js/lib/data-table/datatables-init.js}"></script>
@@ -307,14 +315,14 @@
     <script>
     $(function() {
 	    $('.edit-btn').click(function() {
-	        var categoryId = $(this).data('category-id');
-	        var categoryName = $(this).data('category-name');
-	        var categoryDescription = $(this).data('category-description');
-	        var categoryImg = $(this).data('category-img');
-	        $('#edit-category-id').val(categoryId);
-	        $('#edit-category-name').val(categoryName);
-	        $('#edit-category-description').val(categoryDescription);
-	        $('img#category-image').attr('src', categoryImg);
+	        var orderDelivery = $(this).data('order-delivery');
+	        var orderStatus = $(this).data('order-status');
+	        var orderId = $(this).data('order-id');
+	        var orderUser = $(this).data('order-user');
+	        $('#edit-order-delivery').val(orderDelivery);
+	        $('#edit-order-status').val(orderStatus);
+	        $('#edit-order-id').val(orderId);
+	        $('#edit-order-user').val(orderUser);
 	    });
 
 	    

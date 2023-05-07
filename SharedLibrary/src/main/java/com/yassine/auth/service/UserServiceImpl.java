@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   public void sendPasswordEmail(String recipientEmail, String link)
       throws MessagingException, UnsupportedEncodingException {
     MimeMessage message = mailSender.createMimeMessage();
-    MimeMessageHelper helper = new MimeMessageHelper(message);
+    MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
 
     helper.setFrom(senderEmail, "No-Reply");
     helper.setTo(recipientEmail);

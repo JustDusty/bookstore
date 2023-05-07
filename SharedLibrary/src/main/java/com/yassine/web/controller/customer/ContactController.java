@@ -14,6 +14,7 @@ import com.yassine.auth.model.User;
 import com.yassine.auth.service.UserServiceImpl;
 import com.yassine.web.model.pojo.ContactDetail;
 import com.yassine.web.service.EmailService;
+import jakarta.mail.MessagingException;
 
 @Controller
 @RequestMapping("/contact")
@@ -47,7 +48,7 @@ public class ContactController {
 
   @PostMapping("/send")
   public String sendContact(@ModelAttribute("contactDetail") ContactDetail contactDetail,
-      BindingResult bindingResult, Model model) {
+      BindingResult bindingResult, Model model) throws MessagingException {
 
     if (bindingResult.hasErrors())
       return "user/contact";

@@ -63,7 +63,7 @@ public class CheckoutController {
 
     order.setOrderDate(LocalDate.now());
     order.setDeliveryDate(LocalDate.now().plusDays(3));
-    order.setOrderStatus("pending");
+    order.setOrderStatus("En cours");
     order.setUser(user);
     order.setTotalPrice(totalPrice);
     order.setPaymentMethod("Paiement à la livraison");
