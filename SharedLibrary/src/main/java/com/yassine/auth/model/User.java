@@ -72,11 +72,11 @@ public class User implements UserDetails {
   private LocalDateTime updatedAt;
 
 
-  @Column(name = "zip_code", unique = true)
+  @Column(name = "zip_code")
   private Integer zipCode;
 
 
-  @Column(name = "phone_number", unique = true)
+  @Column(name = "phone_number")
   private String phoneNumber;
 
   @Column(name = "address_line1")

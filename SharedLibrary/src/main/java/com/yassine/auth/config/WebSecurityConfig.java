@@ -49,7 +49,7 @@ public class WebSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.authenticationProvider(authenticationProvider());
-    http.requiresChannel(channel -> channel.anyRequest().requiresSecure());
+
     http.authorizeHttpRequests()
         .requestMatchers("/", "/login", "/register/**", "/oauth2/**", "/forgotPassword/**",
             "/index/**", "/shop/**", "/contact/**", "/actuator/**")
@@ -63,7 +63,6 @@ public class WebSecurityConfig {
     http.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
         .logoutSuccessUrl("/index"));
     http.exceptionHandling(handling -> handling.accessDeniedPage("/access-denied"));
-
     http.csrf().disable();
 
     http.headers(headers -> headers.frameOptions().sameOrigin());
